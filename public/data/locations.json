@@ -28,5 +28,56 @@
   "lat": 64.648,
   "lng": -127.562,
   "image": ""
+},
+{
+  "id": "rrckl",
+  "type": "Puntos",
+  "title": "Casa Empeños",
+  "notes": "Casa de empeños para vender cosas robadas",
+  "order": 7,
+  "lat": 77.073,
+  "lng": -113.117,
+  "image": ""
+},
+{
+  "id": "hetzs",
+  "type": "Puntos",
+  "title": "Venta Pescados",
+  "notes": "Punto para vender pescados tocar la puerta",
+  "order": 8,
+  "lat": 78.821,
+  "lng": -120.409,
+  "image": ""
+},
+{
+  "id": "9s1x2",
+  "type": "Desconocido",
+  "title": "Desconocido 2",
+  "notes": "",
+  "order": 9,
+  "lat": 83.156,
+  "lng": -109.118,
+  "image": ""
+},
+{
+  "id": "pmyfs",
+  "type": "Puntos",
+  "title": "Pez Ilegal",
+  "notes": "",
+  "order": 10,
+  "lat": 82.996,
+  "lng": -109.526,
+  "image": ""
+},
+{
+  "id": "ifno2",
+  "type": "Chester",
+  "title": "Chester 2",
+  "notes": "Misiones",
+  "order": 11,
+  "lat": 58.46,
+  "lng": -126.214,
+  "image": ""
 }
+
 ]
