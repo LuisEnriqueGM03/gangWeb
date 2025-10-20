@@ -11,6 +11,7 @@ declare global {
 		cats: any;
 		map: google.maps.Map;
 		locs: google.maps.Marker[];
+		Vent: any;
 	}
 }
 
@@ -77,6 +78,7 @@ $(() => {
 	$(window).resize(onResize);
 
 	let currentMarker: LocationModel | undefined;
+	let currentInfoWindow: google.maps.InfoWindow | undefined;
 
 	const assetsUrl = (): string => {
 		return window.location.hostname === 'localhost' ? '' : 'https://gta5-map.github.io/';
@@ -91,7 +93,7 @@ $(() => {
 
 	Handlebars.registerHelper('timestampToSeconds', timestampToSeconds);
 
-	const Vent = _.extend({}, Backbone.Events);
+	const Vent = window.Vent = _.extend({}, Backbone.Events);
 
 	class LocationModel extends Backbone.Model<LocationAttributes> {
 		initialize(): void {
@@ -153,7 +155,7 @@ $(() => {
 
 	class LocationsCollection extends Backbone.Collection<LocationModel> {
 		model = LocationModel;
-		url = 'locations.json';
+		url = '/data/locations.json';
 	}
 
 	const locations = window.locations = new LocationsCollection();
@@ -182,26 +184,28 @@ $(() => {
 		}
 	}
 
-	const categories = window.cats = new CategoriesCollection([
-		{
-			name: 'Glitches',
-			icon: 'General/glitches.png',
-			type: 'General',
-			enabled: true
-		},
-		{
-			name: 'Wall breaches',
-			icon: 'General/wall-breach.png',
-			type: 'General',
-			enabled: true
-		},
-		{
-			name: 'Vehicles',
-			icon: 'General/cars.png',
-			type: 'General',
-			enabled: true
+	// Cargar categorías dinámicamente desde categories.json
+	let categories: CategoriesCollection;
+	
+	async function loadCategories() {
+		try {
+			const response = await fetch('/data/categories.json');
+			const data = await response.json();
+			categories = window.cats = new CategoriesCollection(data);
+			console.log('✅ Categorías cargadas:', data);
+		} catch (error) {
+			console.error('❌ Error loading categories:', error);
+			// Fallback a categorías por defecto
+			categories = window.cats = new CategoriesCollection([
+				{
+					name: 'Chester',
+					icon: 'icons/General/chester.png',
+					type: 'General',
+					enabled: true
+				}
+			]);
 		}
-	]);
+	}
 
 	class CategoriesView extends Backbone.View {
 		template!: HandlebarsTemplateDelegate;
@@ -213,14 +217,59 @@ $(() => {
 		};
 
 		initialize(): void {
-			this.template = Handlebars.compile($('#categoriesTemplate').html());
+			const templateHtml = $('#categoriesTemplate').html();
+			console.log('📄 Template HTML length:', templateHtml?.length);
+			this.template = Handlebars.compile(templateHtml);
+			console.log('✅ CategoriesView inicializado');
 		}
 
 		render(): this {
+			const categoriesData = categories.forView();
+			console.log('📋 Renderizando panel de categorías:', categoriesData);
+			
 			this.$el.html(this.template({
-				categories: categories.forView()
+				categories: categoriesData
 			}));
 			$('#typeDetails').hide();
+			
+			// Verificar que los elementos con clase .details existen
+			const detailsButtons = this.$el.find('.details');
+			console.log(`🔍 Botones de detalles (▶) encontrados: ${detailsButtons.length}`);
+			
+			// Agregar event listeners manualmente porque Backbone puede no estar delegando correctamente
+			const $detailButtons = this.$el.find('.details');
+			console.log('🔗 Agregando listeners a', $detailButtons.length, 'botones de flecha');
+			
+			$detailButtons.each(function(index) {
+				const name = $(this).data('name');
+				console.log(`  Botón ${index + 1}: Flecha para categoría "${name}"`);
+			});
+			
+			$detailButtons.off('click').on('click', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				console.log('▶️ Click MANUAL en flecha detectado!');
+				const typeName = $(e.currentTarget).data('name') as string;
+				console.log('📂 Categoría seleccionada:', typeName);
+				
+				this.$el.find(`input[value="${typeName}"]`).prop('checked', true).trigger('change');
+
+				const type = categories.findWhere({ name: typeName });
+				if (!type) {
+					console.error('❌ No se encontró la categoría:', typeName);
+					console.log('Categorías disponibles:', categories.toJSON());
+					return;
+				}
+
+				console.log('✅ Categoría encontrada, renderizando detalles...');
+				const details = new CategoryDetailsView({
+					el: '#typeDetails',
+					model: type as any
+				} as any);
+				(details as any).categoryType = type;
+				details.render();
+			});
+			
 			return this;
 		}
 
@@ -238,13 +287,23 @@ $(() => {
 		}
 
 		showDetails(e: JQuery.ClickEvent): void {
+			console.log('▶️ Click en flecha detectado!', e);
 			e.preventDefault();
+			e.stopPropagation();
+			
 			const typeName = $(e.currentTarget).data('name') as string;
+			console.log('📂 Abriendo categoría:', typeName);
+			
 			this.$el.find(`input[value="${typeName}"]`).prop('checked', true).trigger('change');
 
 			const type = categories.findWhere({ name: typeName });
-			if (!type) return;
+			if (!type) {
+				console.error('❌ No se encontró la categoría:', typeName);
+				console.log('Categorías disponibles:', categories.toJSON());
+				return;
+			}
 
+			console.log('✅ Categoría encontrada, renderizando detalles...');
 			const details = new CategoryDetailsView({
 				el: '#typeDetails',
 				model: type as any
@@ -270,30 +329,95 @@ $(() => {
 
 		goBack(e: JQuery.ClickEvent): void {
 			e.preventDefault();
+			console.log('◀ Volviendo al panel de categorías');
 			this.$el.empty();
+			this.$el.hide();
 			this.off();
 			$('#types').show();
 		}
 
 		showMarker(e: JQuery.ClickEvent): void {
-			const location = locations.get($(e.currentTarget).data('id'));
+			const dataId = $(e.currentTarget).data('id');
+			console.log('🎯 Click en ubicación con id/cid:', dataId);
+			
+			// Buscar primero por id, luego por cid
+			let location = locations.get(dataId);
+			
+			if (!location) {
+				// Si no se encontró por id, buscar por cid
+				location = locations.find((model) => model.cid === dataId);
+			}
+			
 			if (location && window.map) {
-				location.highlightMarker();
+				const title = location.get('title') || '';
+				const notes = location.get('notes') || '';
+				const image = location.get('image') || '';
+				
+				console.log(`✅ Navegando a: ${title} y abriendo popup`);
+				
+				// Hacer zoom y centrar
 				const marker = location.get('marker');
 				if (marker) {
 					window.map.panTo(marker.getPosition()!);
 					window.map.setZoom(5);
+					
+					// Cerrar popup anterior si existe
+					if (currentInfoWindow) {
+						currentInfoWindow.close();
+						console.log('🔴 Popup anterior cerrado');
+					}
+					
+					// Crear y abrir popup directamente
+					const popupContent = `
+						<div class="modern-popup">
+							<div class="popup-container">
+								<div class="popup-header">
+									<div class="header-icon">📍</div>
+									<h3 class="popup-title">${title}</h3>
+								</div>
+								${image ? `
+									<div class="popup-image-container">
+										<img src="${image}" class="popup-main-image" alt="${title}">
+										<div class="image-overlay"></div>
+									</div>
+								` : ''}
+								<div class="popup-content">
+									${notes ? `
+										<div class="popup-description">
+											<div class="description-icon">📝</div>
+											<p class="description-text">${notes}</p>
+										</div>
+									` : ''}
+								</div>
+							</div>
+						</div>
+					`;
+					
+					const infoWindow = new google.maps.InfoWindow({
+						content: popupContent
+					});
+					
+					infoWindow.open(window.map, marker);
+					currentInfoWindow = infoWindow;
+					console.log('✅ Popup abierto directamente desde panel');
 				}
+			} else {
+				console.error('❌ No se encontró la ubicación con id/cid:', dataId);
 			}
 		}
 
 		render(): this {
 			const name = this.categoryType.get('name') || '';
 			const locs = locations.where({ type: name });
+			
+			console.log(`📍 Renderizando ${locs.length} ubicaciones para categoría: ${name}`);
+			
 			this.$el.html(this.template({
 				type: this.categoryType.toJSON(),
 				locations: _.map(locs, (x: LocationModel) => {
 					const d = x.toJSON();
+					// Agregar el cid (client id) de Backbone para poder identificar el modelo
+					(d as any).cid = x.cid;
 					let displayName = name;
 					if (name === 'Money') displayName = 'Hidden Package';
 					if (d.title) {
@@ -304,6 +428,8 @@ $(() => {
 			}));
 			$('#types').hide();
 			this.$el.show();
+			
+			console.log('✅ Panel de detalles mostrado');
 			return this;
 		}
 	}
@@ -333,6 +459,8 @@ $(() => {
 			this.listenTo(Vent, 'locations:visible', this.showLocations);
 			this.listenTo(Vent, 'locations:invisible', this.hideLocations);
 			this.listenTo(Vent, 'location:clicked', this.popupLocation);
+			
+			console.log('✅ MapView inicializado y escuchando evento location:clicked');
 		}
 
 		render(): this {
@@ -457,6 +585,18 @@ $(() => {
 		}
 
 		popupLocation(location: LocationModel, panTo?: boolean): void {
+			console.log('🎯 popupLocation llamado para:', location.get('title'));
+			console.log('panTo:', panTo);
+			
+			// Cerrar popup global anterior si existe
+			if (currentInfoWindow) {
+				currentInfoWindow.close();
+				console.log('🔴 Popup global anterior cerrado');
+			}
+			
+			// Cerrar popup del MapView anterior
+			this.closePopupLocation();
+			
 			const infoWindow = new google.maps.InfoWindow({
 				content: this.popupTemplate(location.toJSON()),
 			});
@@ -472,11 +612,13 @@ $(() => {
 
 			const marker = location.get('marker');
 			if (marker) {
+				console.log('✅ Abriendo popup en marcador');
 				infoWindow.open(this.map, marker);
+				this.currentInfoWindow = infoWindow;
+				currentInfoWindow = infoWindow;
+			} else {
+				console.error('❌ No se encontró el marcador para la ubicación');
 			}
-
-			this.closePopupLocation();
-			this.currentInfoWindow = infoWindow;
 		}
 
 		closePopupLocation(): void {
@@ -494,20 +636,23 @@ $(() => {
 		el: '#types'
 	});
 
-	locations.fetch().done(() => {
-		mapView.render();
-		categoriesView.render();
+	// Cargar categorías primero, luego locations
+	loadCategories().then(() => {
+		locations.fetch().done(() => {
+			mapView.render();
+			categoriesView.render();
 
-		categories.chain()
-			.filter((c: CategoryModel) => c.get('enabled'))
-			.map((c: CategoryModel) => c.get('name') || '')
-			.map((name: string) => {
-				return locations.where({ type: name });
-			})
-			.each((locs: LocationModel[]) => {
-				Vent.trigger('locations:visible', locs);
-			})
-			.value();
+			categories.chain()
+				.filter((c: CategoryModel) => c.get('enabled'))
+				.map((c: CategoryModel) => c.get('name') || '')
+				.map((name: string) => {
+					return locations.where({ type: name });
+				})
+				.each((locs: LocationModel[]) => {
+					Vent.trigger('locations:visible', locs);
+				})
+				.value();
+		});
 	});
 
 	$('#tour-prev, #tour-next').click(function(e: any) {

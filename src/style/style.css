@@ -1,3 +1,44 @@
+/* Variables de colores del tema - Basado en logo GANGS */
+:root {
+  --gradient-primary-start: rgba(29, 126, 115, 0.98);
+  --gradient-primary-end: rgba(42, 157, 143, 0.95);
+  --gradient-primary: linear-gradient(135deg, var(--gradient-primary-start), var(--gradient-primary-end));
+  
+  --color-primary: #3BB9AB;
+  --color-primary-light: #5FEDD8;
+  --color-primary-lighter: #7FF5E6;
+  --color-primary-dark: #2A9D8F;
+}
+
+/* Animaciones */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
 /* Reset y estilos base para el mapa */
 .mapa-page {
   width: 100%;
@@ -42,7 +83,29 @@
   left: 20px;
   width: 340px;
   max-height: calc(100vh - 140px);
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.98), rgba(88, 28, 135, 0.95));
+  background: var(--gradient-primary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow-y: auto;
+  z-index: 9998;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: block;
+}
+
+#types {
+  display: block;
+}
+
+#typeDetails {
+  display: none;
+  position: fixed;
+  top: 100px;
+  left: 20px;
+  width: 340px;
+  max-height: calc(100vh - 140px);
+  background: var(--gradient-primary);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   overflow-y: auto;
@@ -52,16 +115,19 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.types section.type {
+.types section.type,
+#typeDetails section.type {
   padding: 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.types section.type:last-child {
+.types section.type:last-child,
+#typeDetails section.type:last-child {
   border-bottom: none;
 }
 
-.types section.type h3 {
+.types section.type h3,
+#typeDetails section.type h3 {
   font-size: 18px;
   font-weight: 700;
   color: #fff;
@@ -72,81 +138,122 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.types section.type ul {
+.types section.type ul,
+#typeDetails section.type ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.types section.type ul li {
-  padding: 12px 10px;
+.types section.type ul li,
+#typeDetails section.type ul li {
+  padding: 14px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: all 0.3s ease;
   border-radius: 12px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
-.types section.type ul li:hover {
+.types section.type ul li:hover,
+#typeDetails section.type ul li:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateX(4px);
 }
 
-.types section.type ul li label {
+.types section.type ul li label,
+#typeDetails section.type ul li label {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   cursor: pointer;
   flex: 1;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   color: #e2e8f0;
 }
 
 .types section.type ul li label input[type="checkbox"] {
   cursor: pointer;
-  width: 20px;
-  height: 20px;
-  accent-color: #8b5cf6;
+  width: 24px;
+  height: 24px;
+  accent-color: var(--color-primary);
 }
 
 /* Estilos para iconos emoji y para imágenes */
 .types section.type ul li label img,
 .types section.type ul li label .icon-emoji {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 36px;
 }
 
 .types section.type ul li a.details {
-  color: #a78bfa;
+  color: #ffffff !important;
   text-decoration: none;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 8px;
   transition: all 0.3s ease;
   font-weight: 600;
+  font-size: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .types section.type ul li a.details:hover {
-  background: rgba(167, 139, 250, 0.2);
-  color: #c4b5fd;
+  background: rgba(95, 237, 216, 0.2);
+  color: var(--color-primary-lighter);
+  transform: translateX(3px);
 }
 
-.types section.type ul li a.back {
-  color: #cbd5e1;
+.types section.type ul li a.back,
+.types section.type h3 a.back {
+  color: #ffffff !important;
   text-decoration: none;
   margin-right: 10px;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  font-size: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 8px;
 }
 
-.types section.type ul li a.back:hover {
-  color: #fff;
+.types section.type ul li a.back:hover,
+.types section.type h3 a.back:hover {
+  color: var(--color-primary-lighter);
+  background: rgba(95, 237, 216, 0.2);
+  transform: translateX(-3px);
+}
+
+/* Estilos para los items clickeables en el detalle de categoría */
+.types section.type ul li[data-id],
+#typeDetails section.type ul li[data-id] {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.types section.type ul li[data-id]:hover,
+#typeDetails section.type ul li[data-id]:hover {
+  background: rgba(167, 139, 250, 0.15);
+  border-left-color: var(--color-primary-light);
+  transform: translateX(5px);
+}
+
+.types section.type ul li[data-id] label,
+#typeDetails section.type ul li[data-id] label {
+  cursor: pointer;
+  width: 100%;
+  display: block;
 }
 
 /* Modern Popup Window - Diseño hermoso */
@@ -165,7 +272,7 @@
 
 /* Header con gradiente */
 .popup-header {
-  background: linear-gradient(135deg, #2596be 0%, #1e7a9e 100%);
+  background: linear-gradient(135deg, #2A9D8F 0%, #3BB9AB 100%);
   padding: 20px;
   display: flex;
   align-items: center;
@@ -188,17 +295,6 @@
 @keyframes shimmer {
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(-20px, -20px); }
-}
-
-.header-icon {
-  font-size: 32px;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
-  animation: bounce-icon 2s ease-in-out infinite;
-}
-
-@keyframes bounce-icon {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
 }
 
 .popup-title {
@@ -254,14 +350,8 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   padding: 16px;
   border-radius: 12px;
-  border-left: 4px solid #2596be;
+  border-left: 4px solid #3BB9AB;
   margin-bottom: 16px;
-}
-
-.description-icon {
-  font-size: 20px;
-  flex-shrink: 0;
-  margin-top: 2px;
 }
 
 .description-text {
@@ -354,14 +444,14 @@
 
 .types::-webkit-scrollbar-thumb,
 #info-window .scrollable::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
   border-radius: 10px;
   border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .types::-webkit-scrollbar-thumb:hover,
 #info-window .scrollable::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
 }
 
 /* Responsive */

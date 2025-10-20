@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Variables de colores del tema - Basado en logo GANGS */
+:root {
+  --gradient-primary-start: rgba(29, 126, 115, 0.98);
+  --gradient-primary-end: rgba(42, 157, 143, 0.95);
+  --gradient-primary: linear-gradient(135deg, var(--gradient-primary-start), var(--gradient-primary-end));
+  
+  --color-primary: #3BB9AB;
+  --color-primary-light: #5FEDD8;
+  --color-primary-lighter: #7FF5E6;
+  --color-primary-dark: #2A9D8F;
+}
+
 @layer utilities {
   @keyframes blob {
     0% {
