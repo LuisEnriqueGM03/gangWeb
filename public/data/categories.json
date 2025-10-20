@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Chester",
+    "icon": "icons/General/chester.png",
+    "type": "General",
+    "enabled": true
+  }
+]

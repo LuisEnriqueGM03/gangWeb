@@ -1,0 +1,20 @@
+[
+  {
+    "type": "Chester",
+    "title": "Obey Tailgator",
+    "notes": "Puedes encontrar el coche de Michael (Audi A6/A8) en el estacionamiento del campo de golf.",
+    "order": 1,
+    "lat": 69.908,
+    "lng": -138.230,
+    "image": "https://i.postimg.cc/VkcCTVBQ/image.png"
+  },
+  {
+  "type": "Chester",
+  "title": "Lester 2",
+  "notes": "Persona",
+  "order": 2,
+  "lat": 77.499,
+  "lng": -132.779,
+  "image": "https://i.postimg.cc/hjhzTWgs/image.png"
+}
+]
