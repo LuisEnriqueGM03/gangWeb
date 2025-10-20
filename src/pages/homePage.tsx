@@ -38,7 +38,7 @@ const HomePage = () => {
             <div className="text-center space-y-6 mb-12">
               <div className="space-y-4">
                 <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-2xl animate-gradient">
-                  ¡Bienvenido!
+                  ¡Bienvenidooo!
                 </h1>
                 <div className="flex justify-center">
                   <div className="h-1.5 w-32 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full shadow-lg"></div>
