@@ -1,10 +1,7 @@
 $(function() {
 	var showCoordinations = true;
 
-	if (window.location.protocol != "http:") {
-	    window.location.href = "http:" + window.location.href.substring(window.location.protocol.length);		
-	}
-
+	// Eliminado el chequeo de protocolo HTTP para compatibilidad con HTTPS en Vercel
 
 	var $types = $('.types');
 

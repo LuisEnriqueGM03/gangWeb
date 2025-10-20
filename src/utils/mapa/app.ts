@@ -62,10 +62,8 @@ interface MapDetails {
 $(() => {
 	const showCoordinations = true;
 
-	if (window.location.protocol !== 'http:') {
-		window.location.href = 'http:' + window.location.href.substring(window.location.protocol.length);
-	}
-
+	// Eliminado el chequeo de protocolo HTTP para compatibilidad con HTTPS en Vercel
+	
 	const $types = $('.types');
 
 	const onResize = (): void => {
@@ -81,7 +79,7 @@ $(() => {
 	let currentMarker: LocationModel | undefined;
 
 	const assetsUrl = (): string => {
-		return window.location.hostname === 'localhost' ? '' : 'http://gta5-map.github.io/';
+		return window.location.hostname === 'localhost' ? '' : 'https://gta5-map.github.io/';
 	};
 
 	Handlebars.registerHelper('assetsUrl', assetsUrl);
