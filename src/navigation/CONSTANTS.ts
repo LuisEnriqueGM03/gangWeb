@@ -1,4 +1,6 @@
 export const URLS = {
     HOMEPAGE: '/home',
-    MAPA: '/mapa'
+    MAPA: '/mapa',
+    PAWNSHOP: '/pawnshop',
+    ROBOS: '/robos'
 };

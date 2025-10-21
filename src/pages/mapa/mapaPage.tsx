@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Navbar from '../../components/Navbar';
 import '../../style/style.css';
 
 interface Category {
@@ -117,6 +117,44 @@ const MapaPage = () => {
     return () => {
       // Marcar componente como desmontado
       isMounted = false;
+    };
+  }, []);
+
+  // Ocultar modal de error de Google Maps
+  useEffect(() => {
+    const hideGoogleMapsError = () => {
+      // Buscar y ocultar el modal de error
+      const errorModals = document.querySelectorAll('div[style*="z-index"]');
+      errorModals.forEach((modal) => {
+        const modalElement = modal as HTMLElement;
+        const text = modalElement.textContent || '';
+        if (text.includes('Google Maps') || text.includes('correctamente') || text.includes('Aceptar')) {
+          modalElement.style.display = 'none';
+          modalElement.style.visibility = 'hidden';
+          modalElement.remove();
+        }
+      });
+    };
+
+    // Ejecutar inmediatamente
+    hideGoogleMapsError();
+
+    // Observar cambios en el DOM para eliminar el modal si aparece
+    const observer = new MutationObserver(() => {
+      hideGoogleMapsError();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // Ejecutar periódicamente como respaldo
+    const interval = setInterval(hideGoogleMapsError, 100);
+
+    return () => {
+      observer.disconnect();
+      clearInterval(interval);
     };
   }, []);
 
@@ -423,62 +461,46 @@ const MapaPage = () => {
 
   return (
     <div className="mapa-page relative">
-      {/* Botón flotante para volver a Home */}
-      <Link
-        to="/"
-        className="fixed top-6 left-6 z-[9999] group"
-      >
-        <div className="flex items-center gap-3 text-white px-6 py-3 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300" style={{ background: 'linear-gradient(to right, #2A9D8F, #3BB9AB)', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.5)' }}>
-          <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          <span className="font-semibold">Inicio</span>
-        </div>
-      </Link>
+      {/* Navbar */}
+      <Navbar />
 
-      {/* Título del mapa y buscador */}
-      <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-[9999] flex flex-col gap-3">
-        {/* Título */}
-        <div className="backdrop-blur-xl text-white px-8 py-4 rounded-2xl shadow-2xl border border-white/10" style={{ background: 'linear-gradient(to right, rgba(29, 126, 115, 0.95), rgba(42, 157, 143, 0.95))' }}>
-          <div className="flex items-center gap-3">
-            <svg className="w-6 h-6" style={{ color: '#5FEDD8' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-            </svg>
-            <h1 className="text-xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, #5FEDD8, #7FF5E6)' }}>
-              Mapa Ubicaciones Family
-            </h1>
-          </div>
-        </div>
-        
-        {/* Buscador */}
-        <div className="relative">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Buscar ubicaciones..."
-            className="w-full pl-12 pr-4 py-3 bg-white/95 backdrop-blur-xl rounded-xl shadow-xl border-2 border-white/20 transition-all duration-300 outline-none text-gray-700 placeholder-gray-400"
-            style={{ borderColor: 'rgba(59, 185, 171, 0.3)' }}
-            onFocus={(e) => { e.target.style.borderColor = '#3BB9AB'; e.target.style.boxShadow = '0 0 0 4px rgba(59, 185, 171, 0.1)'; }}
-            onBlur={(e) => { e.target.style.borderColor = 'rgba(59, 185, 171, 0.3)'; e.target.style.boxShadow = 'none'; }}
-          />
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          {searchTerm && (
-            <button
-              onClick={() => handleSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+      {/* Buscador - Lado izquierdo */}
+      <div className="fixed top-24 left-6 z-[9999]" style={{ width: '340px' }}>
+        <div className="backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-6" style={{ background: 'linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95))', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.3)' }}>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-            </button>
-          )}
+            </div>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => handleSearch(e.target.value)}
+              placeholder="Buscar ubicaciones..."
+              className="w-full pl-14 pr-4 py-4 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 transition-all duration-300"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 10px 30px -10px rgba(59, 185, 171, 0.2)',
+                fontSize: '16px'
+              }}
+            />
+            {searchTerm && (
+              <button
+                onClick={() => handleSearch('')}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-white hover:text-white/80 transition-colors duration-200"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
           
           {/* Resultados de búsqueda */}
           {searchResults.length > 0 && (
-            <div className="absolute w-full mt-2 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border-2 overflow-hidden animate-slideUp" style={{ borderColor: '#5FEDD8' }}>
+            <div className="mt-2 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border-2 overflow-hidden animate-slideUp" style={{ borderColor: '#5FEDD8' }}>
               {searchResults.map((result) => (
                 <button
                   key={result.id}
@@ -508,9 +530,9 @@ const MapaPage = () => {
       {/* Botón Recargar Mapa - Arriba a la derecha */}
       <button
         onClick={() => window.location.reload()}
-        className="fixed top-6 right-6 z-[9999] group"
+        className="fixed top-24 right-6 z-[9999] group"
       >
-        <div className="flex items-center gap-3 text-white px-6 py-3 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300" style={{ background: 'linear-gradient(to right, #2A9D8F, #5FEDD8)', boxShadow: '0 25px 50px -12px rgba(95, 237, 216, 0.5)' }}>
+        <div className="flex items-center gap-3 text-white px-6 py-3 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300" style={{ background: 'linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95))', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.5)' }}>
           <svg className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
@@ -551,7 +573,7 @@ const MapaPage = () => {
               ? 'text-white' 
               : 'bg-white text-gray-700 hover:bg-gray-100'
           }`}
-          style={mapType === 'Atlas' ? { background: 'linear-gradient(to right, #3BB9AB, #5FEDD8)', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.5)' } : {}}
+          style={mapType === 'Atlas' ? { background: 'linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95))', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.5)' } : {}}
         >
           🗺️ Atlas
         </button>
@@ -562,7 +584,7 @@ const MapaPage = () => {
               ? 'text-white' 
               : 'bg-white text-gray-700 hover:bg-gray-100'
           }`}
-          style={mapType === 'Road' ? { background: 'linear-gradient(to right, #3BB9AB, #5FEDD8)', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.5)' } : {}}
+          style={mapType === 'Road' ? { background: 'linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95))', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.5)' } : {}}
         >
           🛣️ Road
         </button>
@@ -573,7 +595,7 @@ const MapaPage = () => {
               ? 'text-white' 
               : 'bg-white text-gray-700 hover:bg-gray-100'
           }`}
-          style={mapType === 'Satellite' ? { background: 'linear-gradient(to right, #3BB9AB, #5FEDD8)', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.5)' } : {}}
+          style={mapType === 'Satellite' ? { background: 'linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95))', boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.5)' } : {}}
         >
           🛰️ Satellite
         </button>

@@ -9,6 +9,14 @@ const HomePage = () => {
     navigate(URLS.MAPA);
   };
 
+  const handleNavigateToPawnShop = () => {
+    navigate(URLS.PAWNSHOP);
+  };
+
+  const handleNavigateToRobos = () => {
+    navigate(URLS.ROBOS);
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden" style={{ background: 'linear-gradient(to bottom right, rgb(10, 35, 40), rgb(29, 126, 115), rgb(10, 35, 40))' }}>
       {/* Animated Background */}
@@ -70,51 +78,56 @@ const HomePage = () => {
                 </div>
               </button>
 
-              {/* Botón Lista Items - Próximamente */}
-              <div
-                className="group relative p-8 rounded-2xl overflow-hidden transition-all duration-300 shadow-xl cursor-not-allowed"
-                style={{ background: 'linear-gradient(135deg, rgba(42, 157, 143, 0.3), rgba(59, 185, 171, 0.3))' }}
+              {/* Botón Pawn Shop */}
+              <button
+                onClick={handleNavigateToPawnShop}
+                className="group relative p-8 rounded-2xl overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-xl"
+                style={{ background: 'linear-gradient(135deg, #2A9D8F, #3BB9AB)' }}
               >
-                <div className="absolute top-4 right-4">
-                  <span className="px-3 py-1 text-xs font-semibold rounded-full" style={{ backgroundColor: 'rgba(95, 237, 216, 0.3)', color: '#5FEDD8' }}>
-                    Próximamente
-                  </span>
-                </div>
-                <div className="relative z-10 flex flex-col items-center gap-4 opacity-60">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}>
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)' }}>
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                   </div>
                   <div className="text-center">
                     <h3 className="text-xl font-bold text-white mb-2">Pawn Shop</h3>
-                    <p className="text-sm text-white/70">Precios </p>
+                    <p className="text-sm text-white/80">Precios</p>
                   </div>
+                  <svg className="w-6 h-6 text-white/60 group-hover:translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                 </div>
-              </div>
+              </button>
 
-              {/* Botón Robos - Próximamente */}
-              <div
-                className="group relative p-8 rounded-2xl overflow-hidden transition-all duration-300 shadow-xl cursor-not-allowed"
-                style={{ background: 'linear-gradient(135deg, rgba(42, 157, 143, 0.3), rgba(59, 185, 171, 0.3))' }}
+              {/* Botón Robos - Disponible */}
+              <button
+                onClick={handleNavigateToRobos}
+                className="group relative p-8 rounded-2xl overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-xl"
+                style={{ background: 'linear-gradient(135deg, #2A9D8F, #3BB9AB)' }}
               >
                 <div className="absolute top-4 right-4">
-                  <span className="px-3 py-1 text-xs font-semibold rounded-full" style={{ backgroundColor: 'rgba(95, 237, 216, 0.3)', color: '#5FEDD8' }}>
-                    Próximamente
+                  <span className="px-3 py-1 text-xs font-semibold rounded-full animate-pulse" style={{ backgroundColor: 'rgba(95, 237, 216, 0.3)', color: '#5FEDD8' }}>
+                    ¡Disponible!
                   </span>
                 </div>
-                <div className="relative z-10 flex flex-col items-center gap-4 opacity-60">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}>
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)' }}>
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                   </div>
                   <div className="text-center">
                     <h3 className="text-xl font-bold text-white mb-2">Robos</h3>
-                    <p className="text-sm text-white/70">Loots</p>
+                    <p className="text-sm text-white/80">Loots</p>
                   </div>
+                  <svg className="w-6 h-6 text-white/60 group-hover:translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
 

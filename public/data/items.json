@@ -1,0 +1,33 @@
+[    
+    {
+      "id": "58421",
+      "name": "Espuma de Afeitar",
+      "descripcion": "Espuma de Afeitar que se encuentran en las Peluquerías",
+      "precio": 400,
+      "max": 2,
+      "image": "https://i.postimg.cc/6QmX9JD5/image.png",
+      "tipo": "Peluqueria",
+      "categoria": "Robos"
+    },
+    {
+      "id": "96723",
+      "name": "Teclado",
+      "descripcion": "Teclado que se encuentran en las Tatuajerias",
+      "precio": 150,
+      "max": 2,
+      "image": "https://i.postimg.cc/3NQDN31v/image.png",
+      "tipo": "Tatuajeria",
+      "categoria": "Robos"
+    },
+    {
+      "id": "43291",
+      "name": "Peine",
+      "descripcion": "Peine que se encuentran en las Peluquerías",
+      "precio": 200,
+      "max": 2,
+      "image": "https://i.postimg.cc/7PNL01Y3/image.png",
+      "tipo": "Peluqueria",
+      "categoria": "Robos"
+    }
+
+]

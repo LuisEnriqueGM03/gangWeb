@@ -79,11 +79,11 @@
 /* Types Panel - Rediseñado */
 .types {
   position: fixed;
-  top: 100px;
-  left: 20px;
+  top: 220px;
+  left: 24px;
   width: 340px;
-  max-height: calc(100vh - 140px);
-  background: var(--gradient-primary);
+  max-height: calc(100vh - 240px);
+  background: linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   overflow-y: auto;
@@ -101,11 +101,11 @@
 #typeDetails {
   display: none;
   position: fixed;
-  top: 100px;
-  left: 20px;
+  top: 220px;
+  left: 24px;
   width: 340px;
-  max-height: calc(100vh - 140px);
-  background: var(--gradient-primary);
+  max-height: calc(100vh - 240px);
+  background: linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   overflow-y: auto;
@@ -452,6 +452,34 @@
 .types::-webkit-scrollbar-thumb:hover,
 #info-window .scrollable::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+}
+
+/* Ocultar elementos de UI de Google Maps */
+.gmnoprint,
+.gm-style-cc,
+.gm-control-active,
+a[href^="http://maps.google.com/maps"],
+a[href^="https://maps.google.com/maps"],
+.gm-style a[href^="https://maps.google.com"] {
+  display: none !important;
+}
+
+/* Ocultar el modal de error de Google Maps */
+.gm-err-container,
+.gm-err-content,
+.gm-err-message,
+.gm-err-title,
+.gm-err-autocomplete {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Ocultar el mensaje de "correctamente" y otros avisos */
+.gm-style .gm-style-iw-c,
+.gm-style .gm-style-iw-t::after {
+  display: block !important;
 }
 
 /* Responsive */
