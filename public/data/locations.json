@@ -78,6 +78,15 @@
   "lat": 58.46,
   "lng": -126.214,
   "image": ""
+},
+{
+  "id": "1j815",
+  "type": "Chester",
+  "title": "Chester 3",
+  "notes": "Lugar de Chester dentro de una casa abandonada",
+  "order": 12,
+  "lat": 79.038,
+  "lng": -109.868,
+  "image": "https://i.postimg.cc/cHWFjSR3/image.png"
 }
-
 ]
