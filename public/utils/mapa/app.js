@@ -60,6 +60,9 @@ $(function() {
 	Handlebars.registerHelper('timestampToSeconds', timestampToSeconds);
 
 	var Vent = _.extend({}, Backbone.Events);
+	// Exponer Vent globalmente para que React pueda acceder
+	window.Vent = Vent;
+	console.log('✅ Vent expuesto globalmente:', window.Vent);
 
 	var LocationModel = Backbone.Model.extend({
 		initialize: function() {
@@ -82,6 +85,7 @@ $(function() {
 		},
 
 		markerClicked: function() {
+			console.log('🔵 markerClicked - Disparando evento location:clicked', this);
 			Vent.trigger('location:clicked', this);
 		},
 
@@ -412,25 +416,31 @@ $(function() {
 			// }
 			// else {
 
-				var infoWindow = new google.maps.InfoWindow({
-					content: this.popupTemplate(location.toJSON()),
+				// En móvil, React maneja el popup personalizado
+				var isMobile = window.innerWidth <= 768;
+				console.log('🟢 popupLocation llamado', {
+					isMobile: isMobile,
+					width: window.innerWidth,
+					location: location
 				});
+				
+				if (!isMobile) {
+					console.log('💻 Mostrando InfoWindow en desktop');
+					var infoWindow = new google.maps.InfoWindow({
+						content: this.popupTemplate(location.toJSON()),
+					});
 
-			    infoWindow.setOptions({
-			        maxHeight: 400
-			    });
+					infoWindow.setOptions({
+						maxHeight: 400
+					});
 
-				if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-				    infoWindow.setOptions({
-				        maxWidth: 180,
-			        	maxHeight: 300
-				    });
+					infoWindow.open(this.map, location.get('marker'));
+
+					this.closePopupLocation();
+					this.currentInfoWindow = infoWindow;
+				} else {
+					console.log('📱 Móvil detectado - React debe manejar el popup');
 				}
-
-				infoWindow.open(this.map, location.get('marker'));
-
-				this.closePopupLocation();
-				this.currentInfoWindow = infoWindow;
 			// }
 		},
 

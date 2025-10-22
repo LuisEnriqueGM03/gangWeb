@@ -535,7 +535,7 @@ a[href^="https://maps.google.com/maps"],
   top: 0;
   left: 0;
   right: 0;
-  z-index: 50;
+  z-index: 100;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   background: linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95));
@@ -979,4 +979,36 @@ a[href^="https://maps.google.com/maps"],
   .mapa-page * {
     touch-action: manipulation;
   }
+}
+
+/* ==================== LOCATION POPUP SCROLLBAR ==================== */
+/* Scrollbar personalizado para el popup de ubicaciones */
+.scrollbar-popup::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-popup::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.scrollbar-popup::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2A9D8F, #3BB9AB);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.scrollbar-popup::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #3BB9AB, #5FEDD8);
+}
+
+/* ==================== SCROLLBAR HIDE (Mobile) ==================== */
+/* Ocultar scrollbar pero mantener funcionalidad de scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

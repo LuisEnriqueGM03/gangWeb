@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import MapSidebar from '../../components/MapSidebar';
+import LocationPopup from '../../components/LocationPopup';
 import '../../style/style.css';
 
 interface Category {
@@ -21,6 +22,13 @@ const MapaPage = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [currentInfoWindow, setCurrentInfoWindow] = useState<any>(null);
+  const [showLocationPopup, setShowLocationPopup] = useState(false);
+  const [locationPopupData, setLocationPopupData] = useState<{
+    title: string;
+    notes?: string;
+    image?: string;
+    type?: string;
+  }>({ title: '' });
   const [formData, setFormData] = useState({
     title: '',
     type: 'Chester',
@@ -230,6 +238,73 @@ const MapaPage = () => {
     };
   }, []); // Sin dependencias para que se configure solo una vez
 
+  // Interceptar clics en marcadores para mostrar popup móvil
+  useEffect(() => {
+    const setupLocationClickListener = () => {
+      const Vent = (window as any).Vent;
+      
+      if (!Vent) {
+        console.log('⏳ Esperando Vent...');
+        setTimeout(setupLocationClickListener, 500);
+        return;
+      }
+
+      console.log('📍 Configurando listener para clics en ubicaciones...');
+
+      // Interceptar el evento location:clicked de Backbone
+      const handleLocationClick = (location: any) => {
+        const isMobile = window.innerWidth <= 768;
+        console.log('🎯 Location clicked!', {
+          isMobile,
+          width: window.innerWidth,
+          location: location
+        });
+        
+        if (isMobile) {
+          console.log('📱 ES MÓVIL - Mostrando popup personalizado');
+          
+          try {
+            const title = location.get('title') || '';
+            const notes = location.get('notes') || '';
+            const image = location.get('image') || '';
+            const type = location.get('type') || '';
+            
+            console.log('📦 Datos extraídos:', { title, notes, image, type });
+            
+            // Prevenir que se abra el InfoWindow de Google Maps
+            const mapView = (window as any).mapView;
+            if (mapView && mapView.currentInfoWindow) {
+              mapView.currentInfoWindow.close();
+              console.log('❌ InfoWindow cerrado');
+            }
+            
+            // Mostrar nuestro popup personalizado
+            setLocationPopupData({ title, notes, image, type });
+            setShowLocationPopup(true);
+            console.log('✅ Popup state actualizado');
+          } catch (error) {
+            console.error('❌ Error al procesar location:', error);
+          }
+        } else {
+          console.log('💻 ES DESKTOP - Usando InfoWindow normal');
+        }
+      };
+
+      Vent.on('location:clicked', handleLocationClick);
+      console.log('✅ Listener configurado exitosamente');
+    };
+
+    setupLocationClickListener();
+
+    return () => {
+      const Vent = (window as any).Vent;
+      if (Vent) {
+        Vent.off('location:clicked');
+        console.log('🧹 Listener removido');
+      }
+    };
+  }, []);
+
   const handleCreatePoint = () => {
     // Mostrar formulario y ocultar botones
     setShowButtons(false);
@@ -277,6 +352,7 @@ const MapaPage = () => {
     console.log('🔍 Click en resultado de búsqueda:', locationId);
     const locations = (window as any).locations;
     const google = (window as any).google;
+    const isMobile = window.innerWidth <= 768;
     
     if (locations && google) {
       let location = locations.get(locationId);
@@ -290,6 +366,7 @@ const MapaPage = () => {
         const title = location.get('title');
         const notes = location.get('notes') || '';
         const image = location.get('image') || '';
+        const type = location.get('type') || '';
         
         console.log(`✅ Navegando a: ${title} y abriendo popup`);
         
@@ -306,39 +383,46 @@ const MapaPage = () => {
             console.log('🔴 Popup anterior cerrado');
           }
           
-          // Crear y abrir popup directamente
-          const popupContent = `
-            <div class="modern-popup">
-              <div class="popup-container">
-                <div class="popup-header">
-                  <div class="header-icon">📍</div>
-                  <h3 class="popup-title">${title}</h3>
-                </div>
-                ${image ? `
-                  <div class="popup-image-container">
-                    <img src="${image}" class="popup-main-image" alt="${title}">
-                    <div class="image-overlay"></div>
+          // En móvil, usar el popup personalizado
+          if (isMobile) {
+            setLocationPopupData({ title, notes, image, type });
+            setShowLocationPopup(true);
+            console.log('📱 Mostrando popup móvil');
+          } else {
+            // En desktop, usar InfoWindow de Google Maps
+            const popupContent = `
+              <div class="modern-popup">
+                <div class="popup-container">
+                  <div class="popup-header">
+                    <div class="header-icon">📍</div>
+                    <h3 class="popup-title">${title}</h3>
                   </div>
-                ` : ''}
-                <div class="popup-content">
-                  ${notes ? `
-                    <div class="popup-description">
-                      <div class="description-icon">📝</div>
-                      <p class="description-text">${notes}</p>
+                  ${image ? `
+                    <div class="popup-image-container">
+                      <img src="${image}" class="popup-main-image" alt="${title}">
+                      <div class="image-overlay"></div>
                     </div>
                   ` : ''}
+                  <div class="popup-content">
+                    ${notes ? `
+                      <div class="popup-description">
+                        <div class="description-icon">📝</div>
+                        <p class="description-text">${notes}</p>
+                      </div>
+                    ` : ''}
+                  </div>
                 </div>
               </div>
-            </div>
-          `;
-          
-          const infoWindow = new google.maps.InfoWindow({
-            content: popupContent
-          });
-          
-          infoWindow.open(map, marker);
-          setCurrentInfoWindow(infoWindow);
-          console.log('✅ Popup abierto directamente');
+            `;
+            
+            const infoWindow = new google.maps.InfoWindow({
+              content: popupContent
+            });
+            
+            infoWindow.open(map, marker);
+            setCurrentInfoWindow(infoWindow);
+            console.log('💻 InfoWindow abierto en desktop');
+          }
         }
         
         // Limpiar búsqueda después de seleccionar
@@ -474,6 +558,16 @@ const MapaPage = () => {
         onSearchResultClick={handleSearchResultClick}
         onMapTypeChange={handleMapTypeChange}
         onReload={() => window.location.reload()}
+      />
+
+      {/* Location Popup - Solo móvil */}
+      <LocationPopup
+        isOpen={showLocationPopup}
+        onClose={() => setShowLocationPopup(false)}
+        title={locationPopupData.title}
+        notes={locationPopupData.notes}
+        image={locationPopupData.image}
+        type={locationPopupData.type}
       />
 
       {/* Botones flotantes para crear punto */}

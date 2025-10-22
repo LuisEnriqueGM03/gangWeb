@@ -68,20 +68,20 @@ const MapSidebar = ({
 
   return (
     <>
-      {/* Settings Button (Tuerca) / Close Button (X) - Solo visible en mobile */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-20 left-4 z-[60] md:hidden group"
-        style={{
-          background: 'linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95))',
-          borderRadius: '12px',
-          padding: '0.75rem',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
-          border: '1px solid rgba(255, 255, 255, 0.1)'
-        }}
-      >
-        {!isOpen ? (
-          // Tuerca cuando está cerrado
+      {/* Settings Button (Tuerca) - Solo visible en mobile cuando sidebar está cerrado */}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed left-4 z-[50] md:hidden group"
+          style={{
+            top: 'calc(4.5rem + 0.75rem)',
+            background: 'linear-gradient(to right, rgba(10, 35, 40, 0.95), rgba(29, 126, 115, 0.95), rgba(10, 35, 40, 0.95))',
+            borderRadius: '12px',
+            padding: '0.75rem',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 0.1)'
+          }}
+        >
           <svg 
             className="w-6 h-6 text-white transition-all duration-300"
             fill="none" 
@@ -101,28 +101,18 @@ const MapSidebar = ({
               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
             />
           </svg>
-        ) : (
-          // X cuando está abierto
-          <svg 
-            className="w-6 h-6 text-white transition-all duration-300"
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2.5} 
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        )}
-      </button>
+        </button>
+      )}
 
       {/* Overlay - Solo en mobile cuando está abierto */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          className="fixed left-0 right-0 bg-black/50 z-30 md:hidden"
+          style={{
+            top: '4.5rem',
+            bottom: '0',
+            height: 'calc(100vh - 4.5rem)'
+          }}
           onClick={() => setIsOpen(false)}
         ></div>
       )}
@@ -130,7 +120,7 @@ const MapSidebar = ({
       {/* Sidebar Container - Solo mobile */}
       <div
         className={`
-          fixed top-20 left-0 h-[calc(100vh-5rem)] z-40 bg-white
+          fixed left-0 z-40
           transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
           md:hidden
@@ -138,8 +128,53 @@ const MapSidebar = ({
           shadow-2xl
           overflow-y-auto
         `}
+        style={{
+          top: '4.5rem',
+          bottom: '0',
+          height: 'calc(100vh - 4.5rem)',
+          background: 'rgba(255, 255, 255, 0.98)',
+          backdropFilter: 'blur(10px)'
+        }}
       >
-        <div className="h-full p-4 pt-16 space-y-4">
+        {/* Botón cerrar dentro del sidebar */}
+        <div className="sticky top-0 left-0 right-0 z-10 p-3 flex justify-end"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95))',
+            backdropFilter: 'blur(10px)',
+            borderBottom: '1px solid rgba(42, 157, 143, 0.1)'
+          }}
+        >
+          <button
+            onClick={() => setIsOpen(false)}
+            className="group p-2.5 rounded-xl transition-all duration-300 transform hover:scale-110 active:scale-95"
+            style={{
+              background: 'linear-gradient(135deg, #2A9D8F, #3BB9AB)',
+              boxShadow: '0 4px 12px rgba(42, 157, 143, 0.3)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(42, 157, 143, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(42, 157, 143, 0.3)';
+            }}
+          >
+            <svg 
+              className="w-5 h-5 text-white transition-all duration-300 group-hover:rotate-90"
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2.5} 
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        
+        <div className="min-h-full px-4 pt-2 pb-24 space-y-4">
           {/* Buscador Mobile */}
           <div className="w-full">
             <div
