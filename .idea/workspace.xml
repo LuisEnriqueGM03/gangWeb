@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64359e0f-7389-49cb-ad89-37713de9d4e8" name="Changes" comment="First Commit" />
+    <list default="true" id="64359e0f-7389-49cb-ad89-37713de9d4e8" name="Changes" comment="First Commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/CONSTANTS.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/CONSTANTS.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigation/RouterConfig.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigation/RouterConfig.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/homePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/homePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/style.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,21 +19,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "LuisEnriqueGM03"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LuisEnriqueGM03&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/LuisEnriqueGM03/gangWeb.git",
-    "accountId": "c4ce1697-625b-4b90-ac3d-b29ddb293211"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/LuisEnriqueGM03/gangWeb.git&quot;,
+    &quot;accountId&quot;: &quot;c4ce1697-625b-4b90-ac3d-b29ddb293211&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="34KmwxuPkGgNPgzZgQOPOrpbkmS" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -38,6 +44,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
@@ -69,6 +76,7 @@
       <option name="presentableId" value="Default" />
       <updated>1760970879268</updated>
       <workItem from="1760970880784" duration="2666000" />
+      <workItem from="1761139089069" duration="1871000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <option name="closed" value="true" />

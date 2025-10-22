@@ -1012,3 +1012,127 @@ a[href^="https://maps.google.com/maps"],
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* ==================== CAJA REGISTRADORA GAME ==================== */
+/* Target grande 2x2 unificado */
+.game-target-cell {
+  background: linear-gradient(135deg, #FF4444, #CC0000);
+  box-shadow: 0 0 30px rgba(255, 68, 68, 0.9), inset 0 2px 10px rgba(255, 255, 255, 0.2);
+  border: none !important;
+  position: relative;
+  animation: target-glow 2s ease-in-out infinite;
+}
+
+.game-target-top-left {
+  border-top-left-radius: 12px;
+}
+
+.game-target-top-right {
+  border-top-right-radius: 12px;
+}
+
+.game-target-bottom-left {
+  border-bottom-left-radius: 12px;
+}
+
+.game-target-bottom-right {
+  border-bottom-right-radius: 12px;
+}
+
+.game-target-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.game-target-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  animation: target-pulse 1.5s ease-in-out infinite;
+}
+
+.game-target-text {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+}
+
+@keyframes target-glow {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.9), inset 0 2px 10px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(255, 68, 68, 1), inset 0 2px 15px rgba(255, 255, 255, 0.3);
+  }
+}
+
+@keyframes target-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Player cell - Bordes individuales para formar un bloque */
+.game-player-cell {
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 15;
+  position: relative;
+  border: none !important;
+}
+
+.game-player-top-left {
+  border-top: 3px solid #FFD700 !important;
+  border-left: 3px solid #FFD700 !important;
+}
+
+.game-player-top-right {
+  border-top: 3px solid #FFD700 !important;
+  border-right: 3px solid #FFD700 !important;
+}
+
+.game-player-bottom-left {
+  border-bottom: 3px solid #FFD700 !important;
+  border-left: 3px solid #FFD700 !important;
+}
+
+.game-player-bottom-right {
+  border-bottom: 3px solid #FFD700 !important;
+  border-right: 3px solid #FFD700 !important;
+}
+
+/* Grid normal cell */
+.game-grid-cell {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+}
+
+.game-grid-cell:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Responsive para móvil */
+@media (max-width: 640px) {
+  .game-target-icon {
+    font-size: 2rem;
+  }
+  
+  .game-target-text {
+    font-size: 0.875rem;
+  }
+}

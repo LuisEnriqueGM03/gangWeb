@@ -12,6 +12,7 @@ const Navbar = () => {
     { name: 'Mapa', path: URLS.MAPA },
     { name: 'Pawnshop', path: URLS.PAWNSHOP },
     { name: 'Robos', path: URLS.ROBOS },
+    { name: 'Minijuegos', path: URLS.MINIJUEGOS },
   ];
 
   const isActive = (path: string) => location.pathname === path;

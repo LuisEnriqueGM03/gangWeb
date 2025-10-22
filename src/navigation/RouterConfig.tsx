@@ -4,6 +4,9 @@ import HomePage from '../pages/homePage';
 import MapaPage from '../pages/mapa/mapaPage';
 import PawnShopPage from '../pages/pawnShopPage';
 import RobosPage from '../pages/robosPage';
+import ListaMinijuegos from '../pages/ListaMinijuegos';
+import CajaRegistradoraPage from '../pages/cajaRegistradoraPage';
+import BuscaminasPage from '../pages/BuscaminasPage';
 
 const RouterConfig = () => {
   return (
@@ -13,6 +16,9 @@ const RouterConfig = () => {
       <Route path={URLS.MAPA} element={<MapaPage />} />
       <Route path={URLS.PAWNSHOP} element={<PawnShopPage />} />
       <Route path={URLS.ROBOS} element={<RobosPage />} />
+      <Route path={URLS.MINIJUEGOS} element={<ListaMinijuegos />} />
+      <Route path={URLS.CAJA_REGISTRADORA} element={<CajaRegistradoraPage />} />
+      <Route path={URLS.BUSCAMINAS} element={<BuscaminasPage />} />
     </Routes>
   );
 };
