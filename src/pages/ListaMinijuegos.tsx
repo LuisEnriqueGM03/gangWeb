@@ -25,6 +25,15 @@ const ListaMinijuegos = () => {
       ruta: URLS.BUSCAMINAS,
       disponible: true
     },
+    {
+      id: 3,
+      nombre: '🔌 Descruzar Cables',
+      descripcion: 'Arrastra 2 nodos por cable para que no se crucen. Puntos fijos en los extremos. ¡30 segundos!',
+      dificultad: 'Media',
+      color: 'linear-gradient(135deg, #8B5CF6, #EC4899)',
+      ruta: URLS.DESCRUZAR_CABLES,
+      disponible: true
+    },
     // Aquí se agregarán más minijuegos en el futuro
   ];
 

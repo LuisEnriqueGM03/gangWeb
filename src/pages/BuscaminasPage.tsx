@@ -174,28 +174,6 @@ const BuscaminasPage = () => {
 
         {!showInstructions && (
           <>
-            {/* Stats */}
-            <div className="max-w-4xl mx-auto mb-6 flex justify-center gap-4 flex-wrap">
-              <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
-                <p className="text-white font-semibold">Minas: <span className="text-red-400">{totalMines}</span></p>
-              </div>
-              <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
-                <p className="text-white font-semibold flex items-center gap-2">
-                  <span className="material-icons text-yellow-500" style={{ fontSize: '20px' }}>warning</span>
-                  Peligros: <span className="text-yellow-400">{flagCount}/{totalMines}</span>
-                </p>
-              </div>
-              <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
-                <p className="text-white font-semibold">Reveladas: <span className="text-cyan-300">{revealedCount}/{gridSize * gridSize - totalMines}</span></p>
-              </div>
-              <button
-                onClick={initializeBoard}
-                className="backdrop-blur-xl bg-white/10 hover:bg-white/20 rounded-xl px-6 py-3 border border-white/10 text-white font-semibold transition-all duration-300"
-              >
-                🔄 Nuevo Juego
-              </button>
-            </div>
-
             {/* Game Board */}
             <div className="max-w-2xl mx-auto">
               <div className="backdrop-blur-xl bg-white/5 rounded-3xl shadow-2xl p-4 md:p-8 border border-white/10">
@@ -214,8 +192,8 @@ const BuscaminasPage = () => {
                           cell.isRevealed 
                             ? cell.isMine 
                               ? 'bg-red-500/80' 
-                              : 'bg-white/20'
-                            : 'bg-white/10 hover:bg-white/20'
+                              : 'bg-white/30'
+                            : 'bg-gray-800/80 hover:bg-gray-700/80 border border-gray-600/50'
                         } rounded`}
                         onClick={() => revealCell(x, y)}
                         onContextMenu={(e) => toggleFlag(x, y, e)}
@@ -226,12 +204,41 @@ const BuscaminasPage = () => {
                           cell.isMine ? (
                             <span className="material-symbols-outlined text-red-500" style={{ fontSize: '32px' }}>skull</span>
                           ) : cell.neighborMines > 0 ? (
-                            <span className={getNumberColor(cell.neighborMines)}>{cell.neighborMines}</span>
+                            <span 
+                              className={getNumberColor(cell.neighborMines)}
+                              style={{
+                                textShadow: '-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 -1px 0 #fff, 0 1px 0 #fff, -1px 0 0 #fff, 1px 0 0 #fff'
+                              }}
+                            >
+                              {cell.neighborMines}
+                            </span>
                           ) : null
                         ) : null}
                       </div>
                     ))
                   )}
+                </div>
+
+                {/* Stats */}
+                <div className="mt-6 flex justify-center gap-4 flex-wrap">
+                  <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
+                    <p className="text-white font-semibold">Minas: <span className="text-red-400">{totalMines}</span></p>
+                  </div>
+                  <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
+                    <p className="text-white font-semibold flex items-center gap-2">
+                      <span className="material-icons text-yellow-500" style={{ fontSize: '20px' }}>warning</span>
+                      Peligros: <span className="text-yellow-400">{flagCount}/{totalMines}</span>
+                    </p>
+                  </div>
+                  <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
+                    <p className="text-white font-semibold">Reveladas: <span className="text-cyan-300">{revealedCount}/{gridSize * gridSize - totalMines}</span></p>
+                  </div>
+                  <button
+                    onClick={initializeBoard}
+                    className="backdrop-blur-xl bg-white/10 hover:bg-white/20 rounded-xl px-6 py-3 border border-white/10 text-white font-semibold transition-all duration-300"
+                  >
+                    🔄 Nuevo Juego
+                  </button>
                 </div>
 
                 {/* Instrucciones */}

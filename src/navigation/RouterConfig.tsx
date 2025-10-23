@@ -7,6 +7,7 @@ import RobosPage from '../pages/robosPage';
 import ListaMinijuegos from '../pages/ListaMinijuegos';
 import CajaRegistradoraPage from '../pages/cajaRegistradoraPage';
 import BuscaminasPage from '../pages/BuscaminasPage';
+import DescruzarCablesPage from '../pages/DescruzarCablesPage';
 
 const RouterConfig = () => {
   return (
@@ -19,6 +20,7 @@ const RouterConfig = () => {
       <Route path={URLS.MINIJUEGOS} element={<ListaMinijuegos />} />
       <Route path={URLS.CAJA_REGISTRADORA} element={<CajaRegistradoraPage />} />
       <Route path={URLS.BUSCAMINAS} element={<BuscaminasPage />} />
+      <Route path={URLS.DESCRUZAR_CABLES} element={<DescruzarCablesPage />} />
     </Routes>
   );
 };

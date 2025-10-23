@@ -15,6 +15,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Prevenir selección de texto */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Prevenir arrastre de elementos */
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
 }
 
 html {
@@ -1096,23 +1107,28 @@ a[href^="https://maps.google.com/maps"],
 }
 
 .game-player-top-left {
-  border-top: 3px solid #FFD700 !important;
-  border-left: 3px solid #FFD700 !important;
+  border-top: 3px solid #FF4444 !important;
+  border-left: 3px solid #FF4444 !important;
 }
 
 .game-player-top-right {
-  border-top: 3px solid #FFD700 !important;
-  border-right: 3px solid #FFD700 !important;
+  border-top: 3px solid #FF4444 !important;
+  border-right: 3px solid #FF4444 !important;
 }
 
 .game-player-bottom-left {
-  border-bottom: 3px solid #FFD700 !important;
-  border-left: 3px solid #FFD700 !important;
+  border-bottom: 3px solid #FF4444 !important;
+  border-left: 3px solid #FF4444 !important;
 }
 
 .game-player-bottom-right {
-  border-bottom: 3px solid #FFD700 !important;
-  border-right: 3px solid #FFD700 !important;
+  border-bottom: 3px solid #FF4444 !important;
+  border-right: 3px solid #FF4444 !important;
+}
+
+.game-player-cell:hover span {
+  color: #FF4444 !important;
+  transition: color 0.2s ease;
 }
 
 /* Grid normal cell */

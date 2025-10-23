@@ -5,5 +5,6 @@ export const URLS = {
     ROBOS: '/robos',
     MINIJUEGOS: '/minijuegos',
     CAJA_REGISTRADORA: '/caja-registradora',
-    BUSCAMINAS: '/buscaminas'
+    BUSCAMINAS: '/buscaminas',
+    DESCRUZAR_CABLES: '/descruzar-cables'
 };

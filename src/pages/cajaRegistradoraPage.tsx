@@ -17,15 +17,15 @@ const CajaRegistradoraPage = () => {
   const [movesUsed, setMovesUsed] = useState(0);
   const [gameWon, setGameWon] = useState(false);
   const [gameLost, setGameLost] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(8);
+  const [timeLeft, setTimeLeft] = useState(10);
   const [showInstructions, setShowInstructions] = useState(true);
   const [countdown, setCountdown] = useState(0); // Countdown de 5 segundos antes de iniciar
 
   // Función para generar posiciones aleatorias con distancia variable
   const generatePositions = useCallback(() => {
-    // Distancia mínima aleatoria:
-    // Cerca: 7-9, Media: 10-12, Lejos: 13-15
-    const minDistance = Math.floor(Math.random() * 9) + 7; // 7, 8, 9, 10, 11, 12, 13, 14, 15
+    // Distancia mínima: 16 casillas (8 movimientos × 2 casillas por movimiento)
+    // Rango: 16-20 casillas para variar dificultad
+    const minDistance = Math.floor(Math.random() * 5) + 16; // 16, 17, 18, 19, 20
     let targetX, targetY, startX, startY;
     let attempts = 0;
     const maxAttempts = 100;
@@ -294,7 +294,7 @@ const CajaRegistradoraPage = () => {
     ]);
     
     setMovesUsed(0);
-    setTimeLeft(8);
+    setTimeLeft(10);
     setCountdown(5); // Iniciar countdown de 5 segundos
     setGameWon(false);
     setGameLost(false);
@@ -326,35 +326,63 @@ const CajaRegistradoraPage = () => {
           </div>
         </div>
 
-        {/* Mostrar solo si NO hay countdown */}
-        {countdown === 0 && (
+        {/* Mostrar tablero siempre (con o sin countdown) */}
+        {!showInstructions && (
           <>
-            {/* Stats */}
-            <div className="max-w-4xl mx-auto mb-6 flex justify-center gap-4 flex-wrap">
-              <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
-                <p className="text-white font-semibold">Movimientos: <span className="text-cyan-300">{movesUsed}</span></p>
-              </div>
-              <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
-                <p className="text-white font-semibold">Tiempo: <span className={timeLeft <= 3 ? "text-red-400 animate-pulse" : "text-green-400"}>{timeLeft}s</span></p>
-              </div>
-              <button
-                onClick={resetGame}
-                className="backdrop-blur-xl bg-white/10 hover:bg-white/20 rounded-xl px-6 py-3 border border-white/10 text-white font-semibold transition-all duration-300"
-              >
-                🔄 Reiniciar
-              </button>
-            </div>
-
             {/* Game Board */}
             <div className="max-w-4xl mx-auto">
           <div className="backdrop-blur-xl bg-white/5 rounded-3xl shadow-2xl p-4 md:p-8 border border-white/10">
             <div 
-              className="grid gap-0.5 mx-auto"
+              className="grid gap-0.5 mx-auto relative"
               style={{ 
                 gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
                 maxWidth: '600px'
               }}
             >
+              {/* Countdown en el centro del tablero */}
+              {countdown > 0 && (
+                <div className="absolute inset-0 flex items-center justify-center z-50">
+                  <div className="relative w-64 h-64">
+                    {/* Sombra exterior */}
+                    <div className="absolute inset-0 rounded-full animate-pulse" style={{ background: 'rgba(42, 157, 143, 0.2)', transform: 'scale(1.1)' }}></div>
+                    
+                    {/* Círculo principal con gradiente */}
+                    <div 
+                      className="absolute inset-0 rounded-full flex items-center justify-center"
+                      style={{
+                        background: 'linear-gradient(135deg, #2A9D8F 0%, #3BB9AB 100%)',
+                        boxShadow: '0 0 40px rgba(42, 157, 143, 0.6), inset 0 4px 20px rgba(255, 255, 255, 0.2)',
+                        border: '4px solid white'
+                      }}
+                    >
+                      {/* Borde interior decorativo */}
+                      <div 
+                        className="absolute inset-8 rounded-full"
+                        style={{
+                          border: '2px dashed rgba(255, 255, 255, 0.3)'
+                        }}
+                      ></div>
+                      
+                      {/* Número */}
+                      <div className="relative z-10 flex flex-col items-center">
+                        <div 
+                          className="text-9xl font-bold text-white"
+                          style={{ 
+                            textShadow: '0 4px 12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 255, 255, 0.3)',
+                            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.5))'
+                          }}
+                        >
+                          {countdown}
+                        </div>
+                        <p className="text-xl text-white/80 mt-2" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+                          Preparando...
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {grid.map((row, y) => 
                 row.map((cell, x) => {
                   const isAvailable = availableCells.some(c => c.x === x && c.y === y);
@@ -382,19 +410,25 @@ const CajaRegistradoraPage = () => {
                   // Clases dinámicas
                   let cellClasses = 'aspect-square flex items-center justify-center text-lg md:text-2xl font-bold transition-all duration-200 relative ';
                   
-                  if (isAvailable) {
-                    cellClasses += 'game-player-cell cursor-pointer ';
-                    if (isPlayerTopLeft) cellClasses += 'game-player-top-left ';
-                    if (isPlayerTopRight) cellClasses += 'game-player-top-right ';
-                    if (isPlayerBottomLeft) cellClasses += 'game-player-bottom-left ';
-                    if (isPlayerBottomRight) cellClasses += 'game-player-bottom-right ';
-                  } else if (isTarget) {
-                    cellClasses += 'game-target-cell ';
-                    if (isTopLeftTarget) cellClasses += 'game-target-top-left ';
-                    if (isTopRightTarget) cellClasses += 'game-target-top-right ';
-                    if (isBottomLeftTarget) cellClasses += 'game-target-bottom-left ';
-                    if (isBottomRightTarget) cellClasses += 'game-target-bottom-right ';
+                  // Solo mostrar estilos especiales cuando countdown = 0
+                  if (countdown === 0) {
+                    if (isAvailable) {
+                      cellClasses += 'game-player-cell cursor-pointer ';
+                      if (isPlayerTopLeft) cellClasses += 'game-player-top-left ';
+                      if (isPlayerTopRight) cellClasses += 'game-player-top-right ';
+                      if (isPlayerBottomLeft) cellClasses += 'game-player-bottom-left ';
+                      if (isPlayerBottomRight) cellClasses += 'game-player-bottom-right ';
+                    } else if (isTarget) {
+                      cellClasses += 'game-target-cell ';
+                      if (isTopLeftTarget) cellClasses += 'game-target-top-left ';
+                      if (isTopRightTarget) cellClasses += 'game-target-top-right ';
+                      if (isBottomLeftTarget) cellClasses += 'game-target-bottom-left ';
+                      if (isBottomRightTarget) cellClasses += 'game-target-bottom-right ';
+                    } else {
+                      cellClasses += 'game-grid-cell rounded';
+                    }
                   } else {
+                    // Durante countdown, todas las celdas se ven normales
                     cellClasses += 'game-grid-cell rounded';
                   }
 
@@ -403,19 +437,24 @@ const CajaRegistradoraPage = () => {
                       key={`${x}-${y}`} 
                       className={cellClasses}
                       onClick={() => handleCellClick(x, y)}
-                      title={isAvailable ? `Click para moverte ${getArrowSymbol(cell)}` : ''}
+                      title={isAvailable && countdown === 0 ? `Click para moverte ${getArrowSymbol(cell)}` : ''}
                     >
-                      {isAvailable ? (
-                        <span className="text-white font-bold">{getArrowSymbol(cell)}</span>
-                      ) : isTopLeftTarget ? (
-                        <div className="game-target-content">
-                          <div className="game-target-icon">🎯</div>
-                          <div className="game-target-text">TARGET</div>
-                        </div>
-                      ) : isTarget ? (
-                        null
-                      ) : (
-                        <span className="text-white/60">{getArrowSymbol(cell)}</span>
+                      {/* Ocultar flechas durante countdown */}
+                      {countdown === 0 && (
+                        <>
+                          {isAvailable ? (
+                            <span className="text-white font-bold">{getArrowSymbol(cell)}</span>
+                          ) : isTopLeftTarget ? (
+                            <div className="game-target-content">
+                              <div className="game-target-icon">🎯</div>
+                              <div className="game-target-text">TARGET</div>
+                            </div>
+                          ) : isTarget ? (
+                            null
+                          ) : (
+                            <span className="text-white/60">{getArrowSymbol(cell)}</span>
+                          )}
+                        </>
                       )}
                     </div>
                   );
@@ -429,10 +468,12 @@ const CajaRegistradoraPage = () => {
                 <div 
                   className="h-full transition-all duration-1000 ease-linear"
                   style={{
-                    width: `${(timeLeft / 8) * 100}%`,
+                    width: `${(timeLeft / 10) * 100}%`,
                     background: timeLeft <= 3 
                       ? 'linear-gradient(to right, #FF4444, #CC0000)' 
-                      : 'linear-gradient(to right, #2A9D8F, #3BB9AB)'
+                      : timeLeft <= 6
+                      ? 'linear-gradient(to right, #FFA500, #FFD700)'
+                      : 'linear-gradient(to right, #10B981, #34D399)'
                   }}
                 >
                   <div className="flex items-center justify-center h-full">
@@ -440,6 +481,22 @@ const CajaRegistradoraPage = () => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Stats */}
+            <div className="mt-6 flex justify-center gap-4 flex-wrap">
+              <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
+                <p className="text-white font-semibold">Movimientos: <span className="text-cyan-300">{movesUsed}</span></p>
+              </div>
+              <div className="backdrop-blur-xl bg-white/10 rounded-xl px-6 py-3 border border-white/10">
+                <p className="text-white font-semibold">Tiempo: <span className={timeLeft <= 3 ? "text-red-400 animate-pulse" : "text-green-400"}>{timeLeft}s</span></p>
+              </div>
+              <button
+                onClick={resetGame}
+                className="backdrop-blur-xl bg-white/10 hover:bg-white/20 rounded-xl px-6 py-3 border border-white/10 text-white font-semibold transition-all duration-300"
+              >
+                🔄 Reiniciar
+              </button>
             </div>
 
             {/* Instrucciones */}
@@ -453,17 +510,6 @@ const CajaRegistradoraPage = () => {
         )}
       </div>
 
-      {/* Modal de Countdown */}
-      {countdown > 0 && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-          <div className="text-center">
-            <div className="text-9xl font-bold text-white mb-4 animate-pulse">
-              {countdown}
-            </div>
-            <p className="text-3xl text-white/80">Preparándose...</p>
-          </div>
-        </div>
-      )}
 
       {/* Modal de Instrucciones */}
       {showInstructions && (
@@ -471,11 +517,11 @@ const CajaRegistradoraPage = () => {
           <div className="backdrop-blur-xl bg-white/10 rounded-3xl shadow-2xl border border-white/10 p-8 max-w-md">
             <h2 className="text-3xl font-bold text-white mb-4">📖 Instrucciones</h2>
             <div className="space-y-3 text-white/90 text-lg">
-              <p>🎯 <strong>Objetivo:</strong> Llega al TARGET (🎯) rojo en 8 segundos</p>
+              <p>🎯 <strong>Objetivo:</strong> Llega al TARGET (🎯) rojo en 10 segundos</p>
               <p>👆 <strong>Controles:</strong> Haz click en UNA de las 4 celdas con borde dorado</p>
               <p>➡️ <strong>Movimiento:</strong> El bloque completo se mueve 2 celdas según la flecha</p>
               <p>📍 <strong>Bloque 2x2:</strong> Las 4 celdas se mueven juntas manteniéndose alineadas</p>
-              <p>⏱️ <strong>Tiempo:</strong> Tienes 8 segundos - ¡apresúrate!</p>
+              <p>⏱️ <strong>Tiempo:</strong> Tienes 10 segundos - ¡apresúrate!</p>
               <p>⚠️ <strong>Cuidado:</strong> Si sales del tablero, ¡pierdes!</p>
             </div>
             <button
