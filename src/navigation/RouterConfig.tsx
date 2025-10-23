@@ -8,6 +8,9 @@ import ListaMinijuegos from '../pages/ListaMinijuegos';
 import CajaRegistradoraPage from '../pages/cajaRegistradoraPage';
 import BuscaminasPage from '../pages/BuscaminasPage';
 import DescruzarCablesPage from '../pages/DescruzarCablesPage';
+import KeyFastPage from '../pages/KeyFastPage';
+import KeySlowPage from '../pages/KeySlowPage';
+import GanzuadoPage from '../pages/GanzuadoPage';
 
 const RouterConfig = () => {
   return (
@@ -21,6 +24,9 @@ const RouterConfig = () => {
       <Route path={URLS.CAJA_REGISTRADORA} element={<CajaRegistradoraPage />} />
       <Route path={URLS.BUSCAMINAS} element={<BuscaminasPage />} />
       <Route path={URLS.DESCRUZAR_CABLES} element={<DescruzarCablesPage />} />
+      <Route path={URLS.KEY_FAST} element={<KeyFastPage />} />
+      <Route path={URLS.KEY_SLOW} element={<KeySlowPage />} />
+      <Route path={URLS.GANZUADO} element={<GanzuadoPage />} />
     </Routes>
   );
 };

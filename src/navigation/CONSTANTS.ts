@@ -6,5 +6,8 @@ export const URLS = {
     MINIJUEGOS: '/minijuegos',
     CAJA_REGISTRADORA: '/caja-registradora',
     BUSCAMINAS: '/buscaminas',
-    DESCRUZAR_CABLES: '/descruzar-cables'
+    DESCRUZAR_CABLES: '/descruzar-cables',
+    KEY_FAST: '/key-fast',
+    KEY_SLOW: '/key-slow',
+    GANZUADO: '/ganzuado'
 };

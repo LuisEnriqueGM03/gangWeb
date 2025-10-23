@@ -398,101 +398,132 @@ const DescruzarCablesPage = () => {
                     )}
                     
                     {/* Dibujar cables - solo cuando showCables sea true */}
-                    {showCables && cables.map((cable, cableIndex) => (
-                      <g key={cableIndex}>
-                        {/* Líneas con curvatura ligera */}
-                        <path
-                          d={(() => {
-                            const nodes = cable.nodes;
-                            const alignThreshold = 15; // Umbral para considerar alineación
-                            
-                            let path = `M ${nodes[0].x} ${nodes[0].y}`;
-                            
-                            // Procesar cada segmento
-                            for (let i = 0; i < nodes.length - 1; i++) {
-                              const from = nodes[i];
-                              const to = nodes[i + 1];
-                              
-                              const deltaX = Math.abs(to.x - from.x);
-                              const deltaY = Math.abs(to.y - from.y);
-                              
-                              // Si están alineados horizontal o verticalmente, línea recta
-                              if (deltaX < alignThreshold || deltaY < alignThreshold) {
-                                path += ` L ${to.x} ${to.y}`;
-                              } else {
-                                // Si no, curva Bézier cuadrática más pronunciada
-                                // Punto de control desplazado para crear curvatura más notoria
-                                const midX = (from.x + to.x) / 2;
-                                const midY = (from.y + to.y) / 2;
-                                // Desplazar el punto de control perpendicular a la línea para mayor curvatura
-                                const dx = to.x - from.x;
-                                const dy = to.y - from.y;
-                                const offset = 30; // Cantidad de curvatura
-                                const controlX = midX + (-dy / Math.sqrt(dx*dx + dy*dy)) * offset;
-                                const controlY = midY + (dx / Math.sqrt(dx*dx + dy*dy)) * offset;
-                                path += ` Q ${controlX} ${controlY}, ${to.x} ${to.y}`;
-                              }
-                            }
-                            
-                            return path;
-                          })()}
-                          stroke={cable.color}
-                          strokeWidth="4"
-                          fill="none"
-                          opacity="0.8"
-                        />
-                        
-                        {/* Nodos del cable */}
-                        {cable.nodes.map((node, nodeIndex) => (
-                          <g key={node.id}>
-                            {node.canMove ? (
-                              // Nodos movibles: círculos con punto blanco en el centro
-                              <>
-                                <circle
-                                  cx={node.x}
-                                  cy={node.y}
-                                  r={16}
-                                  fill={cable.color}
-                                  stroke="white"
-                                  strokeWidth="3"
-                                  className={gameWon || gameLost ? "cursor-default" : "cursor-grab active:cursor-grabbing"}
-                                  onMouseDown={() => handleMouseDown(cableIndex, nodeIndex)}
-                                />
-                                <circle
-                                  cx={node.x}
-                                  cy={node.y}
-                                  r={5}
-                                  fill="white"
-                                  className="pointer-events-none"
-                                />
-                              </>
-                            ) : (
-                              // Puntos fijos: cuadrados con punto blanco en el centro
-                              <>
-                                <rect
-                                  x={node.x - 15}
-                                  y={node.y - 15}
-                                  width={30}
-                                  height={30}
-                                  fill={cable.color}
-                                  stroke="white"
-                                  strokeWidth="3"
-                                  opacity="0.6"
-                                  className="cursor-default"
-                                />
-                                <circle
-                                  cx={node.x}
-                                  cy={node.y}
-                                  r={5}
-                                  fill="white"
-                                  className="pointer-events-none"
-                                />
-                              </>
-                            )}
+                    {showCables && (
+                      <>
+                        {/* Capa 1: Líneas/cables */}
+                        {cables.map((cable, cableIndex) => (
+                          <g key={`cable-${cableIndex}`}>
+                            <path
+                              d={(() => {
+                                const nodes = cable.nodes;
+                                const alignThreshold = 15;
+                                
+                                let path = `M ${nodes[0].x} ${nodes[0].y}`;
+                                
+                                for (let i = 0; i < nodes.length - 1; i++) {
+                                  const from = nodes[i];
+                                  const to = nodes[i + 1];
+                                  
+                                  const deltaX = Math.abs(to.x - from.x);
+                                  const deltaY = Math.abs(to.y - from.y);
+                                  
+                                  if (deltaX < alignThreshold || deltaY < alignThreshold) {
+                                    path += ` L ${to.x} ${to.y}`;
+                                  } else {
+                                    const midX = (from.x + to.x) / 2;
+                                    const midY = (from.y + to.y) / 2;
+                                    const dx = to.x - from.x;
+                                    const dy = to.y - from.y;
+                                    const offset = 30;
+                                    const controlX = midX + (-dy / Math.sqrt(dx*dx + dy*dy)) * offset;
+                                    const controlY = midY + (dx / Math.sqrt(dx*dx + dy*dy)) * offset;
+                                    path += ` Q ${controlX} ${controlY}, ${to.x} ${to.y}`;
+                                  }
+                                }
+                                
+                                return path;
+                              })()}
+                              stroke={cable.color}
+                              strokeWidth="4"
+                              fill="none"
+                              opacity="0.8"
+                            />
                           </g>
                         ))}
-                      </g>
-                    ))}
+                        
+                        {/* Capa 2: Puntos fijos (inicio y final) */}
+                        {cables.map((cable, cableIndex) => (
+                          <g key={`fixed-${cableIndex}`}>
+                            {cable.nodes.map((node, nodeIndex) => (
+                              !node.canMove && (
+                                <g key={node.id}>
+                                  <rect
+                                    x={node.x - 15}
+                                    y={node.y - 15}
+                                    width={30}
+                                    height={30}
+                                    fill={cable.color}
+                                    stroke="white"
+                                    strokeWidth="3"
+                                    opacity="0.6"
+                                    className="cursor-default"
+                                  />
+                                  <circle
+                                    cx={node.x}
+                                    cy={node.y}
+                                    r={5}
+                                    fill="white"
+                                    className="pointer-events-none"
+                                  />
+                                </g>
+                              )
+                            ))}
+                          </g>
+                        ))}
+                        
+                        {/* Capa 3: Nodos movibles (excepto el que se está arrastrando) */}
+                        {cables.map((cable, cableIndex) => (
+                          <g key={`movable-${cableIndex}`}>
+                            {cable.nodes.map((node, nodeIndex) => (
+                              node.canMove && !(draggingNode?.cableIndex === cableIndex && draggingNode?.nodeIndex === nodeIndex) && (
+                                <g key={node.id}>
+                                  <circle
+                                    cx={node.x}
+                                    cy={node.y}
+                                    r={16}
+                                    fill={cable.color}
+                                    stroke="white"
+                                    strokeWidth="3"
+                                    className={gameWon || gameLost ? "cursor-default" : "cursor-grab active:cursor-grabbing"}
+                                    onMouseDown={() => handleMouseDown(cableIndex, nodeIndex)}
+                                  />
+                                  <circle
+                                    cx={node.x}
+                                    cy={node.y}
+                                    r={5}
+                                    fill="white"
+                                    className="pointer-events-none"
+                                  />
+                                </g>
+                              )
+                            ))}
+                          </g>
+                        ))}
+                        
+                        {/* Capa 4: Nodo siendo arrastrado (arriba de todo) */}
+                        {draggingNode && cables[draggingNode.cableIndex] && (
+                          <g key="dragging-node">
+                            <circle
+                              cx={cables[draggingNode.cableIndex].nodes[draggingNode.nodeIndex].x}
+                              cy={cables[draggingNode.cableIndex].nodes[draggingNode.nodeIndex].y}
+                              r={16}
+                              fill={cables[draggingNode.cableIndex].color}
+                              stroke="white"
+                              strokeWidth="3"
+                              className="cursor-grabbing"
+                              style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.5))' }}
+                            />
+                            <circle
+                              cx={cables[draggingNode.cableIndex].nodes[draggingNode.nodeIndex].x}
+                              cy={cables[draggingNode.cableIndex].nodes[draggingNode.nodeIndex].y}
+                              r={5}
+                              fill="white"
+                              className="pointer-events-none"
+                            />
+                          </g>
+                        )}
+                      </>
+                    )}
                   </svg>
                 </div>
 

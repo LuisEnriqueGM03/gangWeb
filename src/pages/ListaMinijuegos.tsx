@@ -11,7 +11,7 @@ const ListaMinijuegos = () => {
       id: 1,
       nombre: '🎯 Caja Registradora',
       descripcion: 'Llega al objetivo en 8 segundos moviendo el bloque 2x2 con flechas direccionales',
-      dificultad: 'Media',
+      dificultad: 'Difícil',
       color: 'linear-gradient(135deg, #2A9D8F, #3BB9AB)',
       ruta: URLS.CAJA_REGISTRADORA,
       disponible: true
@@ -29,9 +29,36 @@ const ListaMinijuegos = () => {
       id: 3,
       nombre: '🔌 Descruzar Cables',
       descripcion: 'Arrastra 2 nodos por cable para que no se crucen. Puntos fijos en los extremos. ¡30 segundos!',
-      dificultad: 'Media',
+      dificultad: 'Difícil',
       color: 'linear-gradient(135deg, #8B5CF6, #EC4899)',
       ruta: URLS.DESCRUZAR_CABLES,
+      disponible: true
+    },
+    {
+      id: 4,
+      nombre: '⌨️ Key Fast',
+      descripcion: 'Presiona las 12 flechas del teclado en orden. ¡Rápido, solo tienes 6 segundos!',
+      dificultad: 'Media',
+      color: 'linear-gradient(135deg, #06B6D4, #3B82F6)',
+      ruta: URLS.KEY_FAST,
+      disponible: true
+    },
+    {
+      id: 5,
+      nombre: '🐌 Key Slow',
+      descripcion: 'Presiona solo 8 flechas del teclado en orden. Tienes 6 segundos - más fácil!',
+      dificultad: 'Fácil',
+      color: 'linear-gradient(135deg, #10B981, #34D399)',
+      ruta: URLS.KEY_SLOW,
+      disponible: true
+    },
+    {
+      id: 6,
+      nombre: '🔓 Ganzuado',
+      descripcion: 'Presiona E cuando la pelota roja pase por los cuadrados del rombo. ¡2 vueltas completas!',
+      dificultad: 'Difícil',
+      color: 'linear-gradient(135deg, #F59E0B, #F97316)',
+      ruta: URLS.GANZUADO,
       disponible: true
     },
     // Aquí se agregarán más minijuegos en el futuro
