@@ -15,23 +15,23 @@ interface Item {
   ilegal?: boolean;
 }
 
-const PawnShopPage = () => {
+const MercachiflePage = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [selectedComercio, setSelectedComercio] = useState<string>('Venta');
 
-  const categories = ['Todos', 'Peluqueria', 'Tatuajeria', 'Tienda', 'Digital', 'Basura'];
+  const categories = ['Todos', 'Peluqueria', 'Tatuajeria', 'Tienda', 'Digital', 'Basura', 'Tienda Ropa'];
 
   useEffect(() => {
     const loadItems = async () => {
       try {
         const response = await fetch('/data/items.json');
         const data = await response.json();
-        // Filtrar solo items legales
-        const legalItems = data.filter((item: Item) => item.ilegal === false);
-        setItems(legalItems);
+        // Filtrar solo items ilegales
+        const illegalItems = data.filter((item: Item) => item.ilegal === true);
+        setItems(illegalItems);
         setLoading(false);
       } catch (error) {
         console.error('Error loading items:', error);
@@ -43,28 +43,28 @@ const PawnShopPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen relative" style={{ background: 'linear-gradient(to bottom right, rgb(10, 35, 40), rgb(29, 126, 115), rgb(10, 35, 40))' }}>
+    <div className="min-h-screen relative" style={{ background: 'linear-gradient(to bottom right, rgb(10, 10, 10), rgb(30, 30, 30), rgb(10, 10, 10))' }}>
       {/* Navbar */}
       <Navbar />
 
       {/* Animated Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 -left-4 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" style={{ backgroundColor: '#3BB9AB' }}></div>
-        <div className="absolute top-0 -right-4 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" style={{ backgroundColor: '#5FEDD8' }}></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" style={{ backgroundColor: '#2A9D8F' }}></div>
+        <div className="absolute top-0 -left-4 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" style={{ backgroundColor: '#1A1A1A' }}></div>
+        <div className="absolute top-0 -right-4 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" style={{ backgroundColor: '#2A2A2A' }}></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" style={{ backgroundColor: '#0A0A0A' }}></div>
       </div>
 
       {/* Contenido Principal */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 py-6 sm:py-8 pt-24 sm:pt-32">
         {/* Título */}
         <div className="text-center mb-8 sm:mb-12">
-          <div className="backdrop-blur-xl inline-block px-6 sm:px-12 py-4 sm:py-6 rounded-2xl shadow-2xl border border-white/10" style={{ background: 'linear-gradient(to right, rgba(29, 126, 115, 0.95), rgba(42, 157, 143, 0.95))' }}>
+          <div className="backdrop-blur-xl inline-block px-6 sm:px-12 py-4 sm:py-6 rounded-2xl shadow-2xl border border-white/10" style={{ background: 'linear-gradient(to right, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95))' }}>
             <div className="flex items-center gap-3 sm:gap-4 justify-center">
               <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
               <h1 className="text-2xl sm:text-4xl font-bold text-white">
-                Pawnshop Tienda
+                Mercachifle
               </h1>
             </div>
           </div>
@@ -85,8 +85,8 @@ const PawnShopPage = () => {
               }`}
               style={{ 
                 boxShadow: selectedComercio === 'Venta' 
-                  ? '0 25px 50px -12px rgba(59, 185, 171, 0.4)' 
-                  : '0 25px 50px -12px rgba(59, 185, 171, 0.2)' 
+                  ? '0 25px 50px -12px rgba(0, 0, 0, 0.6)' 
+                  : '0 25px 50px -12px rgba(0, 0, 0, 0.3)' 
               }}
             >
               <div className="flex items-center justify-center gap-2 sm:gap-3">
@@ -109,8 +109,8 @@ const PawnShopPage = () => {
               }`}
               style={{ 
                 boxShadow: selectedComercio === 'Compra' 
-                  ? '0 25px 50px -12px rgba(59, 185, 171, 0.4)' 
-                  : '0 25px 50px -12px rgba(59, 185, 171, 0.2)' 
+                  ? '0 25px 50px -12px rgba(0, 0, 0, 0.6)' 
+                  : '0 25px 50px -12px rgba(0, 0, 0, 0.3)' 
               }}
             >
               <div className="flex items-center justify-center gap-2 sm:gap-3">
@@ -125,7 +125,7 @@ const PawnShopPage = () => {
 
         {/* Buscador */}
         <div className="max-w-6xl mx-auto mb-6 sm:mb-8">
-          <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl border border-white/10 p-4 sm:p-6" style={{ boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.3)' }}>
+          <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl border border-white/10 p-4 sm:p-6" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
                 <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +141,7 @@ const PawnShopPage = () => {
                 style={{
                   background: 'rgba(255, 255, 255, 0.05)',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
-                  boxShadow: '0 10px 30px -10px rgba(59, 185, 171, 0.2)',
+                  boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.4)',
                   fontSize: '16px'
                 }}
               />
@@ -161,7 +161,7 @@ const PawnShopPage = () => {
 
         {/* Filtros por Categoría */}
         <div className="max-w-6xl mx-auto mb-6 sm:mb-8">
-          <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl border border-white/10 overflow-hidden" style={{ boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.3)' }}>
+          <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl border border-white/10 overflow-hidden" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
             <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 px-4 sm:px-6 pt-4 sm:pt-6">
               <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
@@ -180,11 +180,11 @@ const PawnShopPage = () => {
                   }`}
                   style={{
                     background: selectedCategory === category
-                      ? 'linear-gradient(to right, #2A9D8F, #3BB9AB)'
+                      ? 'linear-gradient(to right, #1A1A1A, #2A2A2A)'
                       : 'rgba(255, 255, 255, 0.05)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     boxShadow: selectedCategory === category
-                      ? '0 10px 30px -10px rgba(59, 185, 171, 0.5)'
+                      ? '0 10px 30px -10px rgba(0, 0, 0, 0.6)'
                       : 'none'
                   }}
                 >
@@ -198,7 +198,7 @@ const PawnShopPage = () => {
         {/* Loading State */}
         {loading && (
           <div className="text-center py-20">
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-t-transparent" style={{ borderColor: '#3BB9AB' }}></div>
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-t-transparent" style={{ borderColor: '#2A2A2A' }}></div>
             <p className="text-white mt-4 text-lg">Cargando items...</p>
           </div>
         )}
@@ -222,7 +222,7 @@ const PawnShopPage = () => {
               <div
                 key={item.id}
                 className="backdrop-blur-xl bg-white/10 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/10 overflow-hidden transform hover:scale-[1.02] transition-all duration-300"
-                style={{ boxShadow: '0 25px 50px -12px rgba(59, 185, 171, 0.3)' }}
+                style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
               >
                 <div className="flex flex-col md:flex-row">
                   {/* Imagen */}
@@ -232,6 +232,9 @@ const PawnShopPage = () => {
                         src={item.image}
                         alt={item.name}
                         className="w-full h-48 sm:h-64 object-contain rounded-lg drop-shadow-2xl"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://via.placeholder.com/300x200?text=No+Image';
+                        }}
                       />
                     ) : (
                       <div className="w-full h-48 sm:h-64 flex items-center justify-center">
@@ -250,7 +253,7 @@ const PawnShopPage = () => {
                         <h2 className="text-2xl sm:text-4xl font-bold text-white mb-2">
                           {item.name}
                         </h2>
-                        <div className="h-1 w-16 sm:w-24 rounded-full" style={{ background: 'linear-gradient(to right, #3BB9AB, #5FEDD8)' }}></div>
+                        <div className="h-1 w-16 sm:w-24 rounded-full" style={{ background: 'linear-gradient(to right, #1A1A1A, #3A3A3A)' }}></div>
                       </div>
 
                       {/* Descripción */}
@@ -341,4 +344,4 @@ const PawnShopPage = () => {
   );
 };
 
-export default PawnShopPage;
+export default MercachiflePage;

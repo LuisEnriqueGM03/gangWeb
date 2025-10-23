@@ -1,8 +1,10 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { URLS } from './CONSTANTS';
 import HomePage from '../pages/homePage';
-import MapaPage from '../pages/mapa/mapaPage';
+import MapaPage from '../pages/mapaPage';
+import TiendasPage from '../pages/TiendasPage';
 import PawnShopPage from '../pages/pawnShopPage';
+import MercachiflePage from '../pages/MercachiflePage';
 import RobosPage from '../pages/robosPage';
 import ListaMinijuegos from '../pages/ListaMinijuegos';
 import CajaRegistradoraPage from '../pages/cajaRegistradoraPage';
@@ -19,7 +21,9 @@ const RouterConfig = () => {
       <Route path="/" element={<Navigate to={URLS.HOMEPAGE} replace />} />
       <Route path={URLS.HOMEPAGE} element={<HomePage />} />
       <Route path={URLS.MAPA} element={<MapaPage />} />
-      <Route path={URLS.PAWNSHOP} element={<PawnShopPage />} />
+      <Route path={URLS.TIENDAS} element={<TiendasPage />} />
+      <Route path={URLS.PAWN_SHOP} element={<PawnShopPage />} />
+      <Route path={URLS.MERCACHIFLE} element={<MercachiflePage />} />
       <Route path={URLS.ROBOS} element={<RobosPage />} />
       <Route path={URLS.MINIJUEGOS} element={<ListaMinijuegos />} />
       <Route path={URLS.CAJA_REGISTRADORA} element={<CajaRegistradoraPage />} />

@@ -98,5 +98,15 @@
   "lat": 78.222,
   "lng": -98.751,
   "image": "https://i.postimg.cc/m28xnnL7/image.png"
+},
+{
+  "id": "uusf3",
+  "type": "Puntos",
+  "title": "Mercachifle",
+  "notes": "Punto para vender objetos ilegales",
+  "order": 15,
+  "lat": 63.635,
+  "lng": -123.525,
+  "image": "https://i.postimg.cc/sDXx4vCy/image.png"
 }
 ]

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar';
-import MapSidebar from '../../components/MapSidebar';
-import LocationPopup from '../../components/LocationPopup';
-import '../../style/style.css';
+import Navbar from '../components/Navbar';
+import MapSidebar from '../components/MapSidebar';
+import LocationPopup from '../components/LocationPopup';
+import '../style/style.css';
 
 interface Category {
   name: string;

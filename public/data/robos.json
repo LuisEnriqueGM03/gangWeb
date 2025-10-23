@@ -22,6 +22,18 @@
       "title": "Digital",
       "descripcion": "Hackeo y robo digital. Requiere habilidades técnicas, alto riesgo pero gran recompensa.",
       "image": ""
+    },
+    {
+      "id": "65839",
+      "title": "Basura",
+      "descripcion": "Robo a una basura. Operación rápida con bajo riesgo y recompensa moderada.",
+      "image": ""
+    },
+    {
+      "id": "33839",
+      "title": "Tienda Ropa",
+      "descripcion": "Robo a una tienda de ropa. Operación rápida con bajo riesgo y recompensa moderada.",
+      "image": ""
     }
   
 ]

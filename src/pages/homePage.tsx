@@ -9,8 +9,8 @@ const HomePage = () => {
     navigate(URLS.MAPA);
   };
 
-  const handleNavigateToPawnShop = () => {
-    navigate(URLS.PAWNSHOP);
+  const handleNavigateToTiendas = () => {
+    navigate(URLS.TIENDAS);
   };
 
   const handleNavigateToRobos = () => {
@@ -78,9 +78,9 @@ const HomePage = () => {
                 </div>
               </button>
 
-              {/* Botón Pawn Shop */}
+              {/* Botón Tiendas */}
               <button
-                onClick={handleNavigateToPawnShop}
+                onClick={handleNavigateToTiendas}
                 className="group relative p-4 sm:p-5 rounded-xl overflow-hidden transform hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl"
                 style={{ background: 'linear-gradient(135deg, #2A9D8F, #3BB9AB)' }}
               >
@@ -92,7 +92,7 @@ const HomePage = () => {
                     </svg>
                   </div>
                   <div className="text-center">
-                    <h3 className="text-sm sm:text-base font-bold text-white">Pawnshop</h3>
+                    <h3 className="text-sm sm:text-base font-bold text-white">Tiendas</h3>
                   </div>
                 </div>
               </button>

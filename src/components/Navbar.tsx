@@ -10,7 +10,7 @@ const Navbar = () => {
   const navItems = [
     { name: 'Inicio', path: URLS.HOMEPAGE },
     { name: 'Mapa', path: URLS.MAPA },
-    { name: 'Pawnshop', path: URLS.PAWNSHOP },
+    { name: 'Tiendas', path: URLS.TIENDAS },
     { name: 'Robos', path: URLS.ROBOS },
     { name: 'Minijuegos', path: URLS.MINIJUEGOS },
   ];

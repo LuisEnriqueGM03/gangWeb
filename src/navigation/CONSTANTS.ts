@@ -1,7 +1,9 @@
 export const URLS = {
     HOMEPAGE: '/home',
     MAPA: '/mapa',
-    PAWNSHOP: '/pawnshop',
+    TIENDAS: '/tiendas',
+    PAWN_SHOP: '/pawnshop',
+    MERCACHIFLE: '/mercachifle',
     ROBOS: '/robos',
     MINIJUEGOS: '/minijuegos',
     CAJA_REGISTRADORA: '/caja-registradora',
