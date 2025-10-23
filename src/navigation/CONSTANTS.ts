@@ -9,5 +9,6 @@ export const URLS = {
     DESCRUZAR_CABLES: '/descruzar-cables',
     KEY_FAST: '/key-fast',
     KEY_SLOW: '/key-slow',
-    GANZUADO: '/ganzuado'
+    GANZUADO: '/ganzuado',
+    CODIGO_ACCESO: '/codigo-acceso'
 };

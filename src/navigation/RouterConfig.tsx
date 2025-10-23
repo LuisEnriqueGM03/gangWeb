@@ -11,6 +11,7 @@ import DescruzarCablesPage from '../pages/DescruzarCablesPage';
 import KeyFastPage from '../pages/KeyFastPage';
 import KeySlowPage from '../pages/KeySlowPage';
 import GanzuadoPage from '../pages/GanzuadoPage';
+import CodigoAccesoPage from '../pages/CodigoAccesoPage';
 
 const RouterConfig = () => {
   return (
@@ -27,6 +28,7 @@ const RouterConfig = () => {
       <Route path={URLS.KEY_FAST} element={<KeyFastPage />} />
       <Route path={URLS.KEY_SLOW} element={<KeySlowPage />} />
       <Route path={URLS.GANZUADO} element={<GanzuadoPage />} />
+      <Route path={URLS.CODIGO_ACCESO} element={<CodigoAccesoPage />} />
     </Routes>
   );
 };

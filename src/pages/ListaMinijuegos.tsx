@@ -61,6 +61,15 @@ const ListaMinijuegos = () => {
       ruta: URLS.GANZUADO,
       disponible: true
     },
+    {
+      id: 7,
+      nombre: '🔑 Código de Acceso',
+      descripcion: 'Activa los switches correctos para alcanzar el código objetivo. ¡30 segundos!',
+      dificultad: 'Media',
+      color: 'linear-gradient(135deg, #6366F1, #8B5CF6)',
+      ruta: URLS.CODIGO_ACCESO,
+      disponible: true
+    },
     // Aquí se agregarán más minijuegos en el futuro
   ];
 
