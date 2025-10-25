@@ -25,7 +25,6 @@
   -khtml-user-drag: none;
   -moz-user-drag: none;
   -o-user-drag: none;
-  user-drag: none;
 }
 
 html {
@@ -1197,3 +1196,124 @@ a[href^="https://maps.google.com/maps"],
 .animate-shake {
   animation: shake 0.6s ease-in-out;
 }
+
+/* ==================== BRUTEFORCE RULETA ANIMATIONS ==================== */
+/* Animación de giro suave para las columnas */
+@keyframes spinColumn {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+/* Efecto de brillo pulsante para letras rojas */
+@keyframes redGlow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 30px rgba(239, 68, 68, 0.5);
+    filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.8));
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(239, 68, 68, 1), 0 0 50px rgba(239, 68, 68, 0.8);
+    filter: drop-shadow(0 0 25px rgba(239, 68, 68, 1));
+  }
+}
+
+/* Efecto de brillo para letras verdes capturadas */
+@keyframes greenGlow {
+  0%, 100% {
+    text-shadow: 0 0 15px rgba(34, 197, 94, 0.6), 0 0 25px rgba(34, 197, 94, 0.4);
+    filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.6));
+  }
+  50% {
+    text-shadow: 0 0 25px rgba(34, 197, 94, 0.9), 0 0 40px rgba(34, 197, 94, 0.6);
+    filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.9));
+  }
+}
+
+/* Animación para el indicador de columna activa */
+@keyframes columnIndicator {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.02);
+  }
+}
+
+/* Shimmer effect para la línea de captura */
+@keyframes captureLineShimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Efecto de slot machine cuando se detiene */
+@keyframes slotStop {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Aplicar animaciones */
+.bruteforce-red-letter {
+  /* Glow estático para letras rojas: no parpadea */
+  text-shadow: 0 0 25px rgba(239, 68, 68, 1), 0 0 40px rgba(239, 68, 68, 0.6);
+  filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.9));
+  animation: none;
+}
+
+/* Mejora de renderizado de letras para evitar blur al transformar */
+.bruteforce-letter {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: transform;
+  /* Mejoras adicionales para fluidez */
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  image-rendering: crisp-edges;
+}
+
+.bruteforce-green-letter {
+  animation: greenGlow 1.5s ease-in-out infinite;
+}
+
+.bruteforce-column-indicator {
+  animation: columnIndicator 2s ease-in-out infinite;
+}
+
+.bruteforce-capture-line {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(6, 182, 212, 0.3),
+    rgba(6, 182, 212, 0.8),
+    rgba(6, 182, 212, 0.3),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: captureLineShimmer 2s linear infinite;
+}
+
+/* Transición suave cuando una columna se detiene */
+.bruteforce-column-stopped {
+  animation: slotStop 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+

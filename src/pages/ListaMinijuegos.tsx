@@ -88,6 +88,24 @@ const ListaMinijuegos = () => {
       ruta: URLS.CAJA_FUERTE,
       disponible: true
     },
+    {
+      id: 10,
+      nombre: '🔢 Matriz de Seguridad',
+      descripcion: 'Mueve el selector rojo con las flechas y presiona Enter cuando encuentres los 4 números. ¡La matriz se mueve!',
+      dificultad: 'Media',
+      color: 'linear-gradient(135deg, #4F46E5, #7C3AED)',
+      ruta: URLS.SECURE,
+      disponible: true
+    },
+    {
+      id: 11,
+      nombre: '💻 BruteForce',
+      descripcion: 'Matriz en movimiento con letras rojas aleatorias. ¡Captura todas presionando Enter en el momento perfecto!',
+      dificultad: 'Difícil',
+      color: 'linear-gradient(135deg, #10b981, #059669)',
+      ruta: URLS.BRUTEFORCE,
+      disponible: true
+    },
     // Aquí se agregarán más minijuegos en el futuro
   ];
 

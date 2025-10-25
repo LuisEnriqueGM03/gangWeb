@@ -16,6 +16,8 @@ import GanzuadoPage from '../pages/GanzuadoPage';
 import CodigoAccesoPage from '../pages/CodigoAccesoPage';
 import MemorizarPage from '../pages/MemorizarPage';
 import CajaFuertePage from '../pages/CajaFuertePage';
+import SecurePage from '../pages/SecurePage';
+import BruteForcePage from '../pages/BruteForcePage';
 
 const RouterConfig = () => {
   return (
@@ -37,6 +39,8 @@ const RouterConfig = () => {
       <Route path={URLS.CODIGO_ACCESO} element={<CodigoAccesoPage />} />
       <Route path={URLS.MEMORIZAR} element={<MemorizarPage />} />
       <Route path={URLS.CAJA_FUERTE} element={<CajaFuertePage />} />
+      <Route path={URLS.SECURE} element={<SecurePage />} />
+      <Route path={URLS.BRUTEFORCE} element={<BruteForcePage />} />
     </Routes>
   );
 };

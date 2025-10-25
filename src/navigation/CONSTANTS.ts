@@ -14,5 +14,7 @@ export const URLS = {
     GANZUADO: '/ganzuado',
     CODIGO_ACCESO: '/codigo-acceso',
     MEMORIZAR: '/memorizar',
-    CAJA_FUERTE: '/caja-fuerte'
+    CAJA_FUERTE: '/caja-fuerte',
+    SECURE: '/secure',
+    BRUTEFORCE: '/bruteforce'
 };
