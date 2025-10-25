@@ -70,6 +70,24 @@ const ListaMinijuegos = () => {
       ruta: URLS.CODIGO_ACCESO,
       disponible: true
     },
+    {
+      id: 8,
+      nombre: '🧠 Memorizar símbolos',
+      descripcion: 'Memoriza 6 símbolos con sus posiciones en 5s. Identifica el correcto entre 3 opciones. ¡3 rondas para ganar!',
+      dificultad: 'Media',
+      color: 'linear-gradient(135deg, #14B8A6, #06B6D4)',
+      ruta: URLS.MEMORIZAR,
+      disponible: true
+    },
+    {
+      id: 9,
+      nombre: '🔐 Forzar la caja fuerte',
+      descripcion: 'Gira 2 perillas para llegar al 100%. ¡Tienes 30 segundos para abrir la caja fuerte!',
+      dificultad: 'Fácil',
+      color: 'linear-gradient(135deg, #64748b, #475569)',
+      ruta: URLS.CAJA_FUERTE,
+      disponible: true
+    },
     // Aquí se agregarán más minijuegos en el futuro
   ];
 

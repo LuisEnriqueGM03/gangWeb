@@ -14,6 +14,8 @@ import KeyFastPage from '../pages/KeyFastPage';
 import KeySlowPage from '../pages/KeySlowPage';
 import GanzuadoPage from '../pages/GanzuadoPage';
 import CodigoAccesoPage from '../pages/CodigoAccesoPage';
+import MemorizarPage from '../pages/MemorizarPage';
+import CajaFuertePage from '../pages/CajaFuertePage';
 
 const RouterConfig = () => {
   return (
@@ -33,6 +35,8 @@ const RouterConfig = () => {
       <Route path={URLS.KEY_SLOW} element={<KeySlowPage />} />
       <Route path={URLS.GANZUADO} element={<GanzuadoPage />} />
       <Route path={URLS.CODIGO_ACCESO} element={<CodigoAccesoPage />} />
+      <Route path={URLS.MEMORIZAR} element={<MemorizarPage />} />
+      <Route path={URLS.CAJA_FUERTE} element={<CajaFuertePage />} />
     </Routes>
   );
 };

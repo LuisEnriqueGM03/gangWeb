@@ -12,5 +12,7 @@ export const URLS = {
     KEY_FAST: '/key-fast',
     KEY_SLOW: '/key-slow',
     GANZUADO: '/ganzuado',
-    CODIGO_ACCESO: '/codigo-acceso'
+    CODIGO_ACCESO: '/codigo-acceso',
+    MEMORIZAR: '/memorizar',
+    CAJA_FUERTE: '/caja-fuerte'
 };
