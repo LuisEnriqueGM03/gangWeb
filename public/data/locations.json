@@ -108,5 +108,15 @@
   "lat": 63.635,
   "lng": -123.525,
   "image": "https://i.postimg.cc/sDXx4vCy/image.png"
+},
+{
+  "id": "7p25x",
+  "type": "Desconocido",
+  "title": "Desconocido 5",
+  "notes": "Wifi del vanilla",
+  "order": 16,
+  "lat": 64.182,
+  "lng": -122.878,
+  "image": ""
 }
 ]
