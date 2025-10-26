@@ -537,6 +537,12 @@ const CajaRegistradoraPage = () => {
             >
               ¡Empezar a Jugar!
             </button>
+            <button
+              onClick={() => navigate('/minijuegos')}
+              className="w-full mt-4 py-3 rounded-xl font-semibold text-white shadow-lg transition-all duration-300 transform hover:scale-[1.02] bg-white/10 hover:bg-white/20"
+            >
+              ← Volver a Minijuegos
+            </button>
           </div>
         </div>
       )}

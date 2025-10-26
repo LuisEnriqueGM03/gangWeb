@@ -131,7 +131,7 @@ const HomePage = () => {
                     </svg>
                   </div>
                   <div className="text-center">
-                    <h3 className="text-sm sm:text-base font-bold text-white">Minijuegos</h3>
+                    <h3 className="text-sm sm:text-base font-bold text-white">Hacks Robos</h3>
                   </div>
                 </div>
               </button>
