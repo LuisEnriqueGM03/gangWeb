@@ -118,5 +118,15 @@
   "lat": 64.867,
   "lng": -123.466,
   "image": ""
+},
+{
+  "id": "xm6v9",
+  "type": "Chester",
+  "title": "Chester 4",
+  "notes": "detas de los contenedores de colores",
+  "order": 17,
+  "lat": 66.405,
+  "lng": -115.841,
+  "image": "https://i.postimg.cc/xTsgkM1z/image.png"
 }
 ]
